@@ -41,18 +41,32 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.1
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        working-directory: infra
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: infra
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        working-directory: infra
+        run: terraform apply -auto-approve tfplan
+
       - name: Get S3 bucket name
         id: get-bucket
         run: |
           cd infra
-          BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>/dev/null || echo "")
-          if [ -z "$BUCKET_NAME" ]; then
-            echo "Error: Could not get S3 bucket name. Has infrastructure been deployed?"
-            exit 1
-          fi
+          BUCKET_NAME=$(terraform output -raw s3_bucket_name)
           echo "bucket_name=$BUCKET_NAME" >> $GITHUB_OUTPUT
           
-          DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id 2>/dev/null || echo "")
+          DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
 
       - name: Sync files to S3
