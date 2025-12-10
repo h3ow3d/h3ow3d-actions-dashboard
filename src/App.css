@@ -481,3 +481,39 @@
   border-color: var(--border-hover);
   opacity: 1;
 }
+
+/* Fullscreen Mode Adjustments */
+:fullscreen .app {
+  padding: 1rem;
+}
+
+:fullscreen .repo-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+:fullscreen .repo-card {
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+:fullscreen .repo-header h3 {
+  font-size: 0.95rem;
+}
+
+:fullscreen .repo-description {
+  font-size: 0.8rem;
+}
+
+:fullscreen .status-details {
+  font-size: 0.8rem;
+}
+
+:fullscreen .category {
+  margin-bottom: 2rem;
+}
+
+:fullscreen .category h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
