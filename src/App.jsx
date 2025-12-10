@@ -12,7 +12,9 @@ import {
   Palette,
   Timer,
   Trash2,
-  Github
+  Github,
+  Maximize,
+  Minimize
 } from 'lucide-react'
 import './App.css'
 
@@ -53,6 +55,30 @@ function App() {
   const [refreshInterval, setRefreshInterval] = useState(10) // seconds
   const [sortBy, setSortBy] = useState('last-run-desc') // last-run-desc, last-run-asc, group, status
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark')
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullscreen(true)
+      }).catch(err => {
+        console.error('Error attempting to enable fullscreen:', err)
+      })
+    } else {
+      document.exitFullscreen().then(() => {
+        setIsFullscreen(false)
+      })
+    }
+  }
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
 
   const fetchRepoStatus = async (repoName, token) => {
     try {
@@ -240,12 +266,13 @@ function App() {
 
   return (
     <div className="app">
-      <header className="header">
-        <div>
-          <h1><Github size={28} style={{display: 'inline', marginRight: '0.5rem'}} /> Actions Dashboard</h1>
-          <p>Real-time GitHub Actions status for all repositories</p>
-        </div>
-        <div className="header-actions">
+      {!isFullscreen && (
+        <header className="header">
+          <div>
+            <h1><Github size={28} style={{display: 'inline', marginRight: '0.5rem'}} /> Actions Dashboard</h1>
+            <p>Real-time GitHub Actions status for all repositories</p>
+          </div>
+          <div className="header-actions">
           <div className="theme-controls">
             <Palette size={16} style={{marginRight: '0.5rem'}} />
             <label htmlFor="theme-select" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginRight: '0.5rem' }}>
@@ -317,8 +344,13 @@ function App() {
             <Trash2 size={16} />
             Clear Token
           </button>
+          <button onClick={toggleFullscreen} className="refresh-btn">
+            {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+            {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+          </button>
         </div>
       </header>
+      )}
 
       {loading && Object.keys(repoStatuses).length === 0 ? (
         <div className="loading">Loading repository statuses...</div>
@@ -374,6 +406,12 @@ function App() {
               </div>
             ))}
         </div>
+      )}
+      
+      {isFullscreen && (
+        <button onClick={toggleFullscreen} className="fullscreen-exit-btn" title="Exit Fullscreen">
+          <Minimize size={20} />
+        </button>
       )}
     </div>
   )
