@@ -331,15 +331,35 @@ function App() {
   }
 
   const getLabelColor = (category) => {
-    // Map categories to Primer Label colors
-    const colorMap = {
-      'common': 'accent',      // Purple for common/shared
-      'modules': 'success',    // Green for modules
-      'infra': 'attention',    // Yellow for infrastructure
-      'services': 'done',      // Purple for services
-      'utils': 'secondary'     // Gray for utilities
+    // Generate a unique color for each category name (like GitHub labels)
+    // Hash the category name to get consistent RGB values
+    let hash = 0
+    for (let i = 0; i < category.length; i++) {
+      hash = category.charCodeAt(i) + ((hash << 5) - hash)
+      hash = hash & hash // Convert to 32bit integer
     }
-    return colorMap[category] || 'secondary'
+    
+    // Generate HSL values for better color distribution
+    // Use golden ratio for hue to get visually distinct colors
+    const hue = (Math.abs(hash) * 137.508) % 360 // Golden angle
+    const saturation = 60 + (Math.abs(hash) % 20) // 60-80%
+    const lightness = 50 + (Math.abs(hash >> 8) % 15) // 50-65%
+    
+    // Convert to RGB for the text color (lighter for dark theme)
+    const textLightness = 75 + (Math.abs(hash >> 16) % 10) // 75-85%
+    const textColor = `hsl(${hue}, ${saturation}%, ${textLightness}%)`
+    
+    // Background is very transparent version
+    const bgColor = `hsla(${hue}, ${saturation}%, ${lightness}%, 0.1)`
+    
+    // Border is semi-transparent version
+    const borderColor = `hsla(${hue}, ${saturation}%, ${lightness}%, 0.25)`
+    
+    return {
+      text: textColor,
+      bg: bgColor,
+      border: borderColor
+    }
   }
 
   const sortRepos = (repos) => {
@@ -795,7 +815,14 @@ function App() {
                       <span className="color-fg-muted" style={{fontSize: '11px'}}>No recent runs</span>
                     )}
                   </div>
-                  <span className={`Label Label--${getLabelColor(status.category)}`} style={{fontSize: '10px'}}>
+                  <span 
+                    className="Label"
+                    style={{
+                      color: getLabelColor(status.category).text,
+                      backgroundColor: getLabelColor(status.category).bg,
+                      borderColor: getLabelColor(status.category).border
+                    }}
+                  >
                     {status.category}
                   </span>
                 </div>
