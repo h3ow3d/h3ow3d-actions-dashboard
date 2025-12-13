@@ -40,6 +40,47 @@
   flex-wrap: wrap;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-primary);
+}
+
+.user-name {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.user-info button {
+  padding: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.user-info button:hover {
+  background: var(--bg-tertiary);
+  color: var(--accent-failure);
+}
+
+
 .theme-controls {
   display: flex;
   align-items: center;
@@ -457,6 +498,39 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.token-setup .oauth-btn {
+  background: var(--accent-primary);
+  margin-bottom: 1rem;
+}
+
+.token-setup .oauth-btn:hover:not(:disabled) {
+  background: var(--accent-primary);
+  opacity: 0.85;
+}
+
+.token-setup .divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+}
+
+.token-setup .divider::before,
+.token-setup .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.token-setup .divider span {
+  padding: 0 1rem;
+  font-size: 0.85rem;
 }
 
 .token-setup button:hover:not(:disabled) {
@@ -473,6 +547,148 @@
   margin-top: 1rem;
   font-size: 0.8rem;
   color: var(--text-secondary);
+}
+
+.token-setup .auth-method {
+  margin: 2rem 0;
+}
+
+.token-setup .auth-method h2 {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* GitHub App Form */
+.github-app-form {
+  max-width: 700px;
+}
+
+.github-app-form h2 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.github-app-form h3 {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.setup-instructions {
+  margin-bottom: 2rem;
+}
+
+.setup-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--accent-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.setup-link:hover {
+  opacity: 0.9;
+}
+
+.instruction-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 0.75rem 0;
+}
+
+.instruction-box ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.instruction-box li {
+  margin: 0.5rem 0;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.instruction-box ul ul {
+  margin-top: 0.25rem;
+}
+
+.instruction-box code {
+  background: var(--bg-tertiary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.instruction-box strong {
+  color: var(--accent-primary);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+  font-size: 0.85rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-primary-alpha);
+}
+
+.back-btn {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem !important;
+  background: var(--bg-tertiary) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.9rem !important;
+}
+
+.back-btn:hover {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+.error-message {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 6px;
+  color: var(--accent-failure);
+  font-size: 0.9rem;
 }
 
 /* Fullscreen Exit Button */

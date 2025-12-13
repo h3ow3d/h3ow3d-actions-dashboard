@@ -14,9 +14,21 @@ import {
   Trash2,
   Github,
   Maximize,
-  Minimize
+  Minimize,
+  LogOut,
+  User,
+  Settings
 } from 'lucide-react'
 import './App.css'
+import GitHubAppGuide from './components/GitHubAppGuide'
+import {
+  isGitHubAppConfigured,
+  getGitHubAppToken,
+  saveGitHubAppCredentials,
+  clearGitHubAppAuth,
+  validateGitHubAppCredentials,
+  getAppInstallationInfo
+} from './services/githubAppAuth'
 
 const GITHUB_OWNER = 'h3ow3d'
 
@@ -49,13 +61,67 @@ function App() {
   const [repoStatuses, setRepoStatuses] = useState({})
   const [loading, setLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState(null)
-  const [githubToken, setGithubToken] = useState(localStorage.getItem('github_token') || '')
-  const [showTokenInput, setShowTokenInput] = useState(!localStorage.getItem('github_token'))
+  const [githubToken, setGithubToken] = useState('')
+  const [showAuthSetup, setShowAuthSetup] = useState(false)
   const [autoRefresh, setAutoRefresh] = useState(true)
   const [refreshInterval, setRefreshInterval] = useState(10) // seconds
   const [sortBy, setSortBy] = useState('last-run-desc') // last-run-desc, last-run-asc, group, status
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark')
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [authMethod, setAuthMethod] = useState('none') // 'pat', 'github-app', or 'none'
+  const [appInfo, setAppInfo] = useState(null)
+  
+  // GitHub App setup form state
+  const [showGitHubAppForm, setShowGitHubAppForm] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
+  const [appId, setAppId] = useState('')
+  const [privateKey, setPrivateKey] = useState('')
+  const [installationId, setInstallationId] = useState('')
+  const [appFormError, setAppFormError] = useState('')
+
+  // Check authentication on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (isGitHubAppConfigured()) {
+        setAuthMethod('github-app')
+        try {
+          const info = await getAppInstallationInfo()
+          setAppInfo(info)
+        } catch (err) {
+          console.error('Failed to get app info:', err)
+        }
+        setLoading(false)
+      } else if (localStorage.getItem('github_token')) {
+        setGithubToken(localStorage.getItem('github_token'))
+        setAuthMethod('pat')
+        setLoading(false)
+      } else {
+        setShowAuthSetup(true)
+        setLoading(false)
+      }
+    }
+    checkAuth()
+  }, [])
+
+  const handleLogout = () => {
+    if (authMethod === 'github-app') {
+      clearGitHubAppAuth()
+      setAppInfo(null)
+    } else {
+      localStorage.removeItem('github_token')
+    }
+    setGithubToken('')
+    setAuthMethod('none')
+    setShowAuthSetup(true)
+    setRepoStatuses({})
+  }
+
+  const getActiveToken = async () => {
+    if (authMethod === 'github-app') {
+      return await getGitHubAppToken()
+    }
+    return githubToken
+  }
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -156,7 +222,7 @@ function App() {
 
   const fetchAllStatuses = async () => {
     setLoading(true)
-    const token = githubToken || null
+    const token = await getActiveToken()
     
     const allRepos = [
       ...REPOSITORIES.common.map(r => ({ ...r, category: 'common' })),
@@ -179,7 +245,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (!showTokenInput) {
+    if (!showAuthSetup && authMethod !== 'none') {
       fetchAllStatuses()
       
       if (autoRefresh) {
@@ -187,7 +253,7 @@ function App() {
         return () => clearInterval(interval)
       }
     }
-  }, [showTokenInput, githubToken, autoRefresh, refreshInterval])
+  }, [showAuthSetup, authMethod, autoRefresh, refreshInterval])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -196,13 +262,49 @@ function App() {
 
   const saveToken = () => {
     localStorage.setItem('github_token', githubToken)
-    setShowTokenInput(false)
+    setAuthMethod('pat')
+    setShowAuthSetup(false)
   }
 
   const clearToken = () => {
     localStorage.removeItem('github_token')
     setGithubToken('')
-    setShowTokenInput(true)
+    setAuthMethod('none')
+    setShowAuthSetup(true)
+  }
+
+  const handleGitHubAppSetup = async () => {
+    setAppFormError('')
+    
+    if (!appId || !privateKey || !installationId) {
+      setAppFormError('All fields are required')
+      return
+    }
+
+    try {
+      const result = await validateGitHubAppCredentials(appId, privateKey, installationId)
+      
+      if (!result.valid) {
+        setAppFormError(`Validation failed: ${result.error}`)
+        return
+      }
+
+      saveGitHubAppCredentials(appId, privateKey, installationId)
+      setAuthMethod('github-app')
+      setShowGitHubAppForm(false)
+      setShowAuthSetup(false)
+      
+      // Get app info
+      const info = await getAppInstallationInfo()
+      setAppInfo(info)
+      
+      // Clear form
+      setAppId('')
+      setPrivateKey('')
+      setInstallationId('')
+    } catch (err) {
+      setAppFormError(`Setup failed: ${err.message}`)
+    }
   }
 
   const getStatusIcon = (status) => {
@@ -274,29 +376,114 @@ function App() {
     }
   }
 
-  if (showTokenInput) {
+  if (showAuthSetup) {
     return (
-      <div className="app">
-        <div className="token-setup">
-          <h1><Key size={32} style={{display: 'inline', marginRight: '0.5rem'}} /> GitHub Token Required</h1>
-          <p>To fetch workflow statuses, you need a GitHub Personal Access Token with <code>repo</code> scope.</p>
-          <p>
-            <a href="https://github.com/settings/tokens/new?scopes=repo&description=h3ow3d-dashboard" target="_blank" rel="noopener noreferrer">
-              Create a new token <ExternalLink size={14} style={{display: 'inline', marginLeft: '4px'}} />
-            </a>
-          </p>
-          <input
-            type="password"
-            placeholder="ghp_xxxxxxxxxxxx"
-            value={githubToken}
-            onChange={(e) => setGithubToken(e.target.value)}
-          />
-          <button onClick={saveToken} disabled={!githubToken}>
-            Save Token & Continue
-          </button>
-          <p className="note">Token is stored locally in your browser.</p>
+      <>
+        {showGuide && <GitHubAppGuide onClose={() => setShowGuide(false)} />}
+        <div className="app">
+          <div className="token-setup">
+            <h1><Github size={32} style={{display: 'inline', marginRight: '0.5rem'}} /> GitHub Authentication</h1>
+            <p>Choose an authentication method to access workflow statuses.</p>
+          
+          {!showGitHubAppForm && (
+            <>
+              <div className="auth-method">
+                <h2><Settings size={24} style={{display: 'inline', marginRight: '0.5rem'}} /> GitHub App (Recommended)</h2>
+                <p>More secure, automatic token refresh, fine-grained permissions.</p>
+                <button onClick={() => setShowGitHubAppForm(true)} className="oauth-btn">
+                  <Github size={20} style={{marginRight: '0.5rem'}} />
+                  Configure GitHub App
+                </button>
+                <p className="note">
+                  Need help? <a href="#" onClick={(e) => { e.preventDefault(); setShowGuide(true); }} style={{color: 'var(--accent-primary)', textDecoration: 'underline', cursor: 'pointer'}}>
+                    View setup guide
+                  </a>
+                </p>
+              </div>
+              
+              <div className="divider">
+                <span>OR</span>
+              </div>
+              
+              <div className="auth-method">
+                <h2><Key size={24} style={{display: 'inline', marginRight: '0.5rem'}} /> Personal Access Token</h2>
+                <p>Simple setup, use a PAT with <code>repo</code> scope.</p>
+                <p>
+                  <a href="https://github.com/settings/tokens/new?scopes=repo&description=h3ow3d-dashboard" target="_blank" rel="noopener noreferrer">
+                    Create a new token <ExternalLink size={14} style={{display: 'inline', marginLeft: '4px'}} />
+                  </a>
+                </p>
+                <input
+                  type="password"
+                  placeholder="ghp_xxxxxxxxxxxx"
+                  value={githubToken}
+                  onChange={(e) => setGithubToken(e.target.value)}
+                />
+                <button onClick={saveToken} disabled={!githubToken}>
+                  <Key size={16} style={{marginRight: '0.5rem'}} />
+                  Save Token & Continue
+                </button>
+                <p className="note">Token is stored locally in your browser.</p>
+              </div>
+            </>
+          )}
+          
+          {showGitHubAppForm && (
+            <div className="github-app-form">
+              <button onClick={() => setShowGitHubAppForm(false)} className="back-btn">
+                ← Back to auth options
+              </button>
+              
+              <h2>GitHub App Configuration</h2>
+              <p>
+                Need help setting up? <a href="#" onClick={(e) => { e.preventDefault(); setShowGuide(true); }} style={{color: 'var(--accent-primary)', textDecoration: 'underline', cursor: 'pointer'}}>
+                  View setup guide
+                </a>
+              </p>
+              
+              <div className="form-group">
+                <label>App ID</label>
+                <input
+                  type="text"
+                  placeholder="123456"
+                  value={appId}
+                  onChange={(e) => setAppId(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Installation ID</label>
+                <input
+                  type="text"
+                  placeholder="12345678"
+                  value={installationId}
+                  onChange={(e) => setInstallationId(e.target.value)}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Private Key (PEM)</label>
+                <textarea
+                  placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"
+                  value={privateKey}
+                  onChange={(e) => setPrivateKey(e.target.value)}
+                  rows={8}
+                />
+              </div>
+              
+              {appFormError && (
+                <div className="error-message">{appFormError}</div>
+              )}
+              
+              <button onClick={handleGitHubAppSetup} disabled={!appId || !privateKey || !installationId}>
+                <Settings size={16} style={{marginRight: '0.5rem'}} />
+                Save & Authenticate
+              </button>
+            </div>
+          )}
         </div>
       </div>
+      </>
     )
   }
 
@@ -377,10 +564,20 @@ function App() {
             <RefreshCw size={16} className={loading ? 'spinning' : ''} />
             Refresh
           </button>
-          <button onClick={clearToken} className="token-btn">
-            <Trash2 size={16} />
-            Clear Token
-          </button>
+          {authMethod === 'github-app' && appInfo ? (
+            <div className="user-info">
+              <Settings size={20} style={{marginRight: '0.5rem'}} />
+              <span className="user-name">{appInfo.appName} ({appInfo.account})</span>
+              <button onClick={handleLogout} className="token-btn" title="Sign out">
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : authMethod === 'pat' ? (
+            <button onClick={clearToken} className="token-btn">
+              <Trash2 size={16} />
+              Clear Token
+            </button>
+          ) : null}
           <button onClick={toggleFullscreen} className="refresh-btn">
             {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
             {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}

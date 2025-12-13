@@ -4,14 +4,46 @@ Real-time GitHub Actions status dashboard for all h3ow3d repositories.
 
 ## Features
 
-- 🔄 **Auto-refresh**: Configurable refresh intervals (5s to 5m)
+- 🔐 **Dual Authentication**: GitHub App (recommended) or Personal Access Token
+- � **Auto-refresh**: Configurable refresh intervals (5s to 5m)
 - 🎨 **Visual Status**: Color-coded status indicators
 - 📊 **Categorized View**: Organized by repository type (common, modules, infra, services)
 - 🔗 **Quick Links**: Direct links to workflow runs
-- 🔐 **Secure**: GitHub token stored locally in browser
 - ⚡ **Fast**: Built with React + Vite
+- 🎨 **Multiple Themes**: Dark, Light, Gruvbox, Cyberpunk
+- ⌨️ **Keyboard Shortcuts**: T (theme), R (refresh), F (fullscreen)
+- 🖥️ **Fullscreen Mode**: Optimized dashboard view
 - 🐳 **Docker Ready**: Run locally or deploy to AWS
 - ☁️ **AWS S3 + CloudFront**: Serverless static hosting with global CDN
+
+## Authentication
+
+### Option 1: GitHub App (Recommended) 🔐
+
+More secure with fine-grained permissions and automatic token refresh.
+
+1. Create a GitHub App: https://github.com/settings/apps
+2. Install it on your repositories
+3. Run the dashboard and enter your App ID, Installation ID, and Private Key
+
+See [GITHUB_APP_SETUP.md](GITHUB_APP_SETUP.md) for detailed instructions.
+
+### Option 2: Personal Access Token 🔑
+
+Simpler setup, good for personal use.
+
+1. Create a PAT: https://github.com/settings/tokens/new?scopes=repo&description=h3ow3d-dashboard
+2. Run the dashboard and enter your token
+3. Token is stored securely in your browser
+
+## Quick Start
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3001 and choose your authentication method.
 
 ## Deployment Options
 
@@ -66,7 +98,7 @@ make dev
 npm run dev
 ```
 
-Dashboard available at http://localhost:3000
+Dashboard available at http://localhost:3001
 
 ### Makefile Commands
 
@@ -253,7 +285,7 @@ make deploy
    npm run dev
    ```
 
-3. **Open in browser**: http://localhost:3000
+3. **Open in browser**: http://localhost:3001
 
 # Run
 docker run -d \
