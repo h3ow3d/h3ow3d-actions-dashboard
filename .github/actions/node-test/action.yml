@@ -15,5 +15,12 @@ runs:
       shell: bash
     
     - name: Run tests
-      run: npm test -- --run
+      run: npm test -- --run --reporter=verbose --reporter=junit --outputFile=test-results/junit.xml
       shell: bash
+    
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: test-results/junit.xml
+        check_name: Test Results
