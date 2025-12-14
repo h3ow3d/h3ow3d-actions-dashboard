@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate:
-    name: Test and Build
+    name: Build and Test
     runs-on: ubuntu-latest
     permissions:
       contents: read
