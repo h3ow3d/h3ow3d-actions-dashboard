@@ -11,24 +11,27 @@ export function useGitHubStatus(repositories, getActiveToken, authMethod, showAu
     try {
       const headers = token ? { 'Authorization': `token ${token}` } : {}
       
-      // Fetch repository info and latest workflow runs in parallel
-      const [repoResponse, runsResponse] = await Promise.all([
+      // Fetch repository info, latest workflow runs, and open PRs in parallel
+      const [repoResponse, runsResponse, prsResponse] = await Promise.all([
         fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}`, { headers }),
-        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}/actions/runs?per_page=1`, { headers })
+        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}/actions/runs?per_page=1`, { headers }),
+        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}/pulls?state=open&per_page=100`, { headers })
       ])
       
-      if (!repoResponse.ok || !runsResponse.ok) {
-        if (repoResponse.status === 401 || runsResponse.status === 401) {
+      if (!repoResponse.ok || !runsResponse.ok || !prsResponse.ok) {
+        if (repoResponse.status === 401 || runsResponse.status === 401 || prsResponse.status === 401) {
           return { error: 'Authentication required' }
         }
-        return { error: `HTTP ${repoResponse.status || runsResponse.status}` }
+        return { error: `HTTP ${repoResponse.status || runsResponse.status || prsResponse.status}` }
       }
 
       const repoData = await repoResponse.json()
       const runsData = await runsResponse.json()
+      const prsData = await prsResponse.json()
       
       const result = {
-        description: repoData.description || null
+        description: repoData.description || null,
+        openPRCount: Array.isArray(prsData) ? prsData.length : 0
       }
       
       if (runsData.workflow_runs && runsData.workflow_runs.length > 0) {

@@ -7,6 +7,14 @@
   overflow: hidden;
   transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
   min-width: 280px;
+  position: relative;
+}
+
+.repo-card__pr-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
 }
 
 .repo-card:hover {
