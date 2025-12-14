@@ -7,6 +7,7 @@ import {
   FilterIcon,
   ClockIcon
 } from '@primer/octicons-react'
+import { Button, IconButton } from '@primer/react'
 import { ThemeToggle } from '../UI/ThemeToggle'
 import { RefreshButton } from '../UI/RefreshButton'
 import { FullscreenToggle } from '../UI/FullscreenToggle'
@@ -52,20 +53,24 @@ export function DashboardHeader({
             <div className="d-flex flex-items-center gap-2 border rounded-2 px-3 py-1">
               <GearIcon size={16} className="color-fg-muted" />
               <span className="f6">{appInfo.appName} ({appInfo.account})</span>
-              <button 
+              <IconButton 
                 onClick={handleLogout} 
-                className="btn-octicon" 
-                title="Sign out"
                 aria-label="Sign out"
-              >
-                <SignOutIcon size={16} />
-              </button>
+                title="Sign out"
+                icon={SignOutIcon}
+                size="small"
+                variant="invisible"
+              />
             </div>
           ) : authMethod === 'pat' ? (
-            <button onClick={clearToken} className="btn btn-sm btn-danger">
-              <TrashIcon size={16} style={{marginRight: '0.25rem'}} />
+            <Button 
+              onClick={clearToken} 
+              size="small"
+              variant="danger"
+              leadingVisual={TrashIcon}
+            >
               Clear Token
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { KeyIcon, LinkExternalIcon } from '@primer/octicons-react'
+import { Button } from '@primer/react'
 
 export function PatForm({
   githubToken,
@@ -33,14 +34,16 @@ export function PatForm({
           onChange={(e) => setGithubToken(e.target.value)}
           className="form-control input-block"
         />
-        <button 
+        <Button 
           onClick={onSubmit} 
           disabled={!githubToken}
-          className="btn btn-primary btn-block mt-3"
+          variant="primary"
+          block
+          leadingVisual={KeyIcon}
+          sx={{ mt: 3 }}
         >
-          <KeyIcon size={16} style={{marginRight: '0.5rem'}} />
           Save Token & Continue
-        </button>
+        </Button>
         <p className="note f6 color-fg-muted mt-2 mb-0">Token is stored locally in your browser.</p>
       </div>
     </div>

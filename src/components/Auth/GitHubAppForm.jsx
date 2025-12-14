@@ -1,4 +1,5 @@
 import { GearIcon } from '@primer/octicons-react'
+import { Button } from '@primer/react'
 
 export function GitHubAppForm({
   appId,
@@ -15,23 +16,24 @@ export function GitHubAppForm({
   return (
     <div className="Box mt-4">
       <div className="Box-header">
-        <button 
+        <Button 
           onClick={onBack} 
-          className="btn btn-sm"
+          size="small"
         >
           ← Back
-        </button>
+        </Button>
       </div>
       <div className="Box-body">
         <h2 className="f4 mb-2">GitHub App Configuration</h2>
         <p className="f6 color-fg-muted mb-3">
           Need help setting up?{' '}
-          <button 
+          <Button 
             onClick={(e) => { e.preventDefault(); onShowGuide(); }} 
-            className="btn-link"
+            variant="invisible"
+            sx={{ padding: 0, height: 'auto', fontWeight: 'normal' }}
           >
             View setup guide
-          </button>
+          </Button>
         </p>
         
         <div className="form-group">
@@ -76,14 +78,16 @@ export function GitHubAppForm({
           </div>
         )}
         
-        <button 
+        <Button 
           onClick={onSubmit} 
           disabled={!appId || !privateKey || !installationId}
-          className="btn btn-primary btn-block mt-3"
+          variant="primary"
+          block
+          leadingVisual={GearIcon}
+          sx={{ mt: 3 }}
         >
-          <GearIcon size={16} style={{marginRight: '0.5rem'}} />
           Save & Authenticate
-        </button>
+        </Button>
       </div>
     </div>
   )
