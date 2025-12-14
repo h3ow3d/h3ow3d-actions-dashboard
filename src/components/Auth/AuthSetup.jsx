@@ -1,4 +1,5 @@
 import { MarkGithubIcon, GearIcon } from '@primer/octicons-react'
+import { Button } from '@primer/react'
 import GitHubAppGuide from './GitHubAppGuide'
 import { GitHubAppForm } from './GitHubAppForm'
 import { PatForm } from './PatForm'
@@ -42,18 +43,24 @@ export function AuthSetup({
               </div>
               <div className="Box-body">
                 <p className="color-fg-muted f6">More secure, automatic token refresh, fine-grained permissions.</p>
-                <button onClick={() => setShowGitHubAppForm(true)} className="btn btn-primary btn-block mt-3">
-                  <MarkGithubIcon size={16} style={{marginRight: '0.5rem'}} />
+                <Button 
+                  onClick={() => setShowGitHubAppForm(true)} 
+                  variant="primary"
+                  block
+                  leadingVisual={MarkGithubIcon}
+                  sx={{ mt: 3 }}
+                >
                   Configure GitHub App
-                </button>
+                </Button>
                 <p className="note f6 color-fg-muted mt-2 mb-0">
                   Need help?{' '}
-                  <button 
+                  <Button 
                     onClick={(e) => { e.preventDefault(); setShowGuide(true); }} 
-                    className="btn-link"
+                    variant="invisible"
+                    sx={{ padding: 0, height: 'auto', fontWeight: 'normal' }}
                   >
                     View setup guide
-                  </button>
+                  </Button>
                 </p>
               </div>
             </div>

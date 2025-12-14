@@ -1,4 +1,5 @@
 import { LinkExternalIcon, CheckCircleIcon, XIcon } from '@primer/octicons-react'
+import { Button, IconButton } from '@primer/react'
 
 function GitHubAppGuide({ onClose }) {
   const currentUrl = window.location.origin
@@ -26,13 +27,12 @@ function GitHubAppGuide({ onClose }) {
       >
         <div className="Box-header d-flex flex-justify-between flex-items-center">
           <h1 className="Box-title">GitHub App Setup Guide</h1>
-          <button 
+          <IconButton 
             onClick={onClose} 
-            className="btn-octicon btn-octicon-danger"
+            variant="danger"
             aria-label="Close"
-          >
-            <XIcon size={16} />
-          </button>
+            icon={XIcon}
+          />
         </div>
         
         <div className="Box-body overflow-y-auto" style={{maxHeight: 'calc(90vh - 60px)'}}>
@@ -230,9 +230,13 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                 
                 <p className="mb-2">Click the button below to return to the configuration form and enter these credentials.</p>
                 
-                <button onClick={onClose} className="btn btn-primary btn-block">
+                <Button 
+                  onClick={onClose} 
+                  variant="primary"
+                  block
+                >
                   Configure Dashboard Now →
-                </button>
+                </Button>
               </div>
             </details>
           </div>
