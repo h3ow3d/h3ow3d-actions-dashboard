@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { StatusCard } from './StatusCard'
+import { RepoCard } from './RepoCard'
 
-describe('StatusCard Component', () => {
+describe('RepoCard Component', () => {
   describe('Rendering', () => {
     it('renders repository name', () => {
       const status = {
@@ -10,7 +10,7 @@ describe('StatusCard Component', () => {
         description: 'Main web application'
       }
       
-      render(<StatusCard repoName="my-repo" status={status} />)
+      render(<RepoCard repoName="my-repo" status={status} />)
       
       expect(screen.getByText('my-repo')).toBeInTheDocument()
     })
@@ -21,7 +21,7 @@ describe('StatusCard Component', () => {
         description: 'API server'
       }
       
-      render(<StatusCard repoName="api" status={status} />)
+      render(<RepoCard repoName="api" status={status} />)
       
       expect(screen.getByText('API server')).toBeInTheDocument()
     })
@@ -32,7 +32,7 @@ describe('StatusCard Component', () => {
         description: 'Infrastructure'
       }
       
-      render(<StatusCard repoName="infra" status={status} />)
+      render(<RepoCard repoName="infra" status={status} />)
       
       expect(screen.getByText('DevOps')).toBeInTheDocument()
     })
@@ -46,7 +46,7 @@ describe('StatusCard Component', () => {
         error: 'Failed to fetch workflow status'
       }
       
-      render(<StatusCard repoName="my-repo" status={status} />)
+      render(<RepoCard repoName="my-repo" status={status} />)
       
       expect(screen.getByText('Failed to fetch workflow status')).toBeInTheDocument()
     })
@@ -58,7 +58,7 @@ describe('StatusCard Component', () => {
         error: 'API error'
       }
       
-      const { container } = render(<StatusCard repoName="my-repo" status={status} />)
+      const { container } = render(<RepoCard repoName="my-repo" status={status} />)
       
       expect(container.querySelector('.color-fg-danger')).toBeInTheDocument()
     })
@@ -77,7 +77,7 @@ describe('StatusCard Component', () => {
         url: 'https://github.com/example/repo/actions/runs/123'
       }
       
-      render(<StatusCard repoName="my-repo" status={status} />)
+      render(<RepoCard repoName="my-repo" status={status} />)
       
       expect(screen.getByText('CI Pipeline')).toBeInTheDocument()
       expect(screen.getByText('main')).toBeInTheDocument()
@@ -93,7 +93,7 @@ describe('StatusCard Component', () => {
         url: 'https://github.com/example/repo/actions/runs/123'
       }
       
-      render(<StatusCard repoName="my-repo" status={status} />)
+      render(<RepoCard repoName="my-repo" status={status} />)
       
       const link = screen.getByText('View Run')
       expect(link.closest('a')).toHaveAttribute('href', 'https://github.com/example/repo/actions/runs/123')
@@ -112,7 +112,7 @@ describe('StatusCard Component', () => {
         commitMessage: 'feat: add new endpoint'
       }
       
-      render(<StatusCard repoName="api-server" status={status} />)
+      render(<RepoCard repoName="api-server" status={status} />)
       
       expect(screen.getByText('Deploy to Staging')).toBeInTheDocument()
       expect(screen.getByText('develop')).toBeInTheDocument()
@@ -126,7 +126,7 @@ describe('StatusCard Component', () => {
         description: 'No runs yet'
       }
       
-      render(<StatusCard repoName="new-repo" status={status} />)
+      render(<RepoCard repoName="new-repo" status={status} />)
       
       expect(screen.getByText('No recent runs')).toBeInTheDocument()
     })
@@ -144,7 +144,7 @@ describe('StatusCard Component', () => {
         commitMessage: 'test: add new tests'
       }
       
-      render(<StatusCard repoName="my-repo" status={status} />)
+      render(<RepoCard repoName="my-repo" status={status} />)
       
       expect(screen.getByText('Test Suite')).toBeInTheDocument()
       expect(screen.getByText('feature/new-ui')).toBeInTheDocument()

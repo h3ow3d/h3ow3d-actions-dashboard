@@ -1,16 +1,16 @@
 import { 
   Github,
-  Maximize,
-  Minimize,
   Settings,
   LogOut,
   Trash2,
   Palette,
   Filter,
   Timer,
-  RefreshCw,
   Clock
 } from 'lucide-react'
+import { ThemeToggle } from '../UI/ThemeToggle'
+import { RefreshButton } from '../UI/RefreshButton'
+import { FullscreenToggle } from '../UI/FullscreenToggle'
 
 export function DashboardHeader({
   isFullscreen,
@@ -31,6 +31,11 @@ export function DashboardHeader({
   fetchAllStatuses,
   loading
 }) {
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(nextTheme)
+  }
+
   return (
     <header className="pb-3 mb-3 border-bottom">
       <div className="d-flex flex-justify-between flex-items-start mb-3">
@@ -43,13 +48,7 @@ export function DashboardHeader({
         </div>
         
         <div className="d-flex flex-items-center gap-2">
-          <button 
-            onClick={toggleFullscreen} 
-            className="btn btn-sm"
-            aria-label={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-          >
-            {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
-          </button>
+          <FullscreenToggle isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
           {authMethod === 'github-app' && appInfo ? (
             <div className="d-flex flex-items-center gap-2 border rounded-2 px-3 py-1">
               <Settings size={16} className="color-fg-muted" />
@@ -87,6 +86,7 @@ export function DashboardHeader({
             <option value="dark">Dark</option>
             <option value="light">Light</option>
           </select>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
         
         <div className="d-flex flex-items-center gap-2">
@@ -139,14 +139,11 @@ export function DashboardHeader({
           </span>
         )}
         
-        <button 
-          onClick={fetchAllStatuses} 
-          disabled={loading}
-          className="btn btn-primary btn-sm"
-        >
-          <RefreshCw size={16} className={loading ? 'spinning' : ''} style={{marginRight: '0.25rem'}} />
-          Refresh
-        </button>
+        <RefreshButton 
+          onRefresh={fetchAllStatuses}
+          loading={loading}
+          disabled={false}
+        />
       </div>
     </header>
   )
