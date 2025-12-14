@@ -66,12 +66,18 @@ export function useGitHubStatus(repositories, getActiveToken, authMethod, showAu
       ...repositories.utils.map(r => ({ ...r, category: 'utils' })),
     ]
 
-    const statuses = {}
-    
-    for (const repo of allRepos) {
+    // Fetch all repos in parallel for much faster loading
+    const statusPromises = allRepos.map(async (repo) => {
       const status = await fetchRepoStatus(repo.name, token)
-      statuses[repo.name] = { ...status, category: repo.category }
-    }
+      return { name: repo.name, status: { ...status, category: repo.category } }
+    })
+
+    const results = await Promise.all(statusPromises)
+    
+    const statuses = {}
+    results.forEach(({ name, status }) => {
+      statuses[name] = status
+    })
 
     setRepoStatuses(statuses)
     setLastUpdate(new Date())
