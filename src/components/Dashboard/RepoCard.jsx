@@ -1,16 +1,26 @@
 import { 
   GitBranchIcon,
-  LinkExternalIcon
+  LinkExternalIcon,
+  GitPullRequestIcon
 } from '@primer/octicons-react'
-import { Link, Label } from '@primer/react'
+import { Link, Label, CounterLabel } from '@primer/react'
 import { getStatusIcon, getStatusClass, getLabelColor } from '../../utils/statusHelpers.jsx'
 import './RepoCard.css'
 
 export function RepoCard({ repoName, status }) {
   const labelColor = getLabelColor(status.category)
+  const hasPRs = status.openPRCount > 0
 
   return (
     <div className={`repo-card ${getStatusClass(status)}`}>
+      {hasPRs && (
+        <div className="repo-card__pr-badge">
+          <CounterLabel>
+            <GitPullRequestIcon size={12} />
+            {status.openPRCount}
+          </CounterLabel>
+        </div>
+      )}
       <div className="repo-card__header">
         <div>
           <h3 className="repo-card__title">{repoName}</h3>
