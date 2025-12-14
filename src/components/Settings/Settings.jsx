@@ -1,0 +1,158 @@
+import { useState, useEffect } from 'react'
+import { XIcon, SearchIcon, PlusIcon, TrashIcon } from '@primer/octicons-react'
+import { Button, IconButton, TextInput, Label } from '@primer/react'
+import './Settings.css'
+
+export function Settings({ onClose, getActiveToken, selectedRepos, onSaveRepos }) {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [availableRepos, setAvailableRepos] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [repos, setRepos] = useState(selectedRepos)
+
+  useEffect(() => {
+    fetchUserRepos()
+  }, [])
+
+  const fetchUserRepos = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const token = await getActiveToken()
+      const headers = token ? { 'Authorization': `token ${token}` } : {}
+      
+      // Fetch user's accessible repositories
+      const response = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated', { headers })
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch repositories: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      setAvailableRepos(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const addRepository = (repo) => {
+    if (!repos.find(r => r.name === repo.name)) {
+      setRepos([...repos, {
+        name: repo.name,
+        owner: repo.owner.login,
+        description: repo.description,
+        category: 'custom'
+      }])
+    }
+  }
+
+  const removeRepository = (repoName) => {
+    setRepos(repos.filter(r => r.name !== repoName))
+  }
+
+  const handleSave = () => {
+    onSaveRepos(repos)
+    onClose()
+  }
+
+  const filteredAvailable = availableRepos.filter(repo => 
+    repo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    repo.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  return (
+    <div className="settings-overlay">
+      <div className="settings-modal">
+        <div className="settings-header">
+          <h2 className="f3 text-normal mb-0">Repository Configuration</h2>
+          <IconButton 
+            icon={XIcon}
+            onClick={onClose}
+            aria-label="Close settings"
+            variant="invisible"
+          />
+        </div>
+
+        <div className="settings-content">
+          <div className="settings-section">
+            <h3 className="f4 mb-2">Selected Repositories ({repos.length})</h3>
+            <div className="repo-list">
+              {repos.length === 0 ? (
+                <p className="color-fg-muted text-center py-4">No repositories selected</p>
+              ) : (
+                repos.map(repo => (
+                  <div key={repo.name} className="repo-item">
+                    <div>
+                      <div className="f5 text-bold">{repo.owner}/{repo.name}</div>
+                      {repo.description && (
+                        <div className="f6 color-fg-muted">{repo.description}</div>
+                      )}
+                    </div>
+                    <div className="d-flex flex-items-center gap-2">
+                      <Label>{repo.category}</Label>
+                      <IconButton
+                        icon={TrashIcon}
+                        onClick={() => removeRepository(repo.name)}
+                        aria-label="Remove repository"
+                        variant="danger"
+                        size="small"
+                      />
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <h3 className="f4 mb-2">Available Repositories</h3>
+            <TextInput
+              leadingVisual={SearchIcon}
+              placeholder="Search repositories..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+            
+            {loading ? (
+              <p className="color-fg-muted text-center py-4">Loading repositories...</p>
+            ) : error ? (
+              <p className="color-fg-danger text-center py-4">{error}</p>
+            ) : (
+              <div className="repo-list">
+                {filteredAvailable.map(repo => {
+                  const isSelected = repos.find(r => r.name === repo.name)
+                  return (
+                    <div key={repo.id} className="repo-item">
+                      <div>
+                        <div className="f5 text-bold">{repo.owner.login}/{repo.name}</div>
+                        {repo.description && (
+                          <div className="f6 color-fg-muted">{repo.description}</div>
+                        )}
+                      </div>
+                      <Button
+                        size="small"
+                        leadingVisual={PlusIcon}
+                        onClick={() => addRepository(repo)}
+                        disabled={isSelected}
+                      >
+                        {isSelected ? 'Added' : 'Add'}
+                      </Button>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="settings-footer">
+          <Button onClick={onClose} variant="invisible">Cancel</Button>
+          <Button onClick={handleSave} variant="primary">Save Changes</Button>
+        </div>
+      </div>
+    </div>
+  )
+}

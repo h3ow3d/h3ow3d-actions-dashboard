@@ -24,7 +24,8 @@ export function Dashboard({
   autoRefresh,
   setAutoRefresh,
   refreshInterval,
-  setRefreshInterval
+  setRefreshInterval,
+  onOpenSettings
 }) {
   const sortedRepos = sortRepositories(repoStatuses, sortBy)
 
@@ -55,6 +56,7 @@ export function Dashboard({
           lastUpdate={lastUpdate}
           fetchAllStatuses={fetchAllStatuses}
           loading={loading}
+          onOpenSettings={onOpenSettings}
         />
       )}
 

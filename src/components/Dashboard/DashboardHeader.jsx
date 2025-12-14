@@ -29,7 +29,8 @@ export function DashboardHeader({
   setRefreshInterval,
   lastUpdate,
   fetchAllStatuses,
-  loading
+  loading,
+  onOpenSettings
 }) {
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
@@ -48,6 +49,14 @@ export function DashboardHeader({
         </div>
         
         <div className="d-flex flex-items-center gap-2">
+          <IconButton
+            icon={GearIcon}
+            onClick={onOpenSettings}
+            aria-label="Settings"
+            title="Repository Configuration"
+            size="medium"
+            variant="invisible"
+          />
           <FullscreenToggle isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
           {authMethod === 'github-app' && appInfo ? (
             <div className="d-flex flex-items-center gap-2 border rounded-2 px-3 py-1">
