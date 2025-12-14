@@ -29,14 +29,13 @@ export function Dashboard({
   const sortedRepos = sortRepositories(repoStatuses, sortBy)
 
   return (
-    <div className="p-4" style={{
-      height: '100vh',
-      maxWidth: isFullscreen ? 'none' : '1600px', 
-      margin: '0 auto', 
-      display: 'flex', 
-      flexDirection: 'column',
-      overflow: 'hidden'
-    }}>
+    <div 
+      className="p-4 height-full d-flex flex-column overflow-hidden"
+      style={{
+        maxWidth: isFullscreen ? 'none' : '1600px',
+        margin: '0 auto'
+      }}
+    >
       {!isFullscreen && (
         <DashboardHeader
           isFullscreen={isFullscreen}
@@ -68,7 +67,7 @@ export function Dashboard({
       )}
       
       {isFullscreen && (
-        <div className="position-fixed top-0 right-0 m-3" style={{zIndex: 1000}}>
+        <div className="position-fixed top-0 right-0 m-3" style={{ zIndex: 1000 }}>
           <FullscreenToggle isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
         </div>
       )}
