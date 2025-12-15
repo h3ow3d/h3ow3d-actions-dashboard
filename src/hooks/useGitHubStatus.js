@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { MOCK_REPO_STATUSES } from '../data/mockRepoStatuses'
 
-const GITHUB_OWNER = 'h3ow3d'
-
 /**
  * Check if we're in a demo-capable environment
  * (localhost or Vercel preview deployments)
@@ -61,15 +59,16 @@ export function useGitHubStatus(repositories, getActiveToken, authMethod, showAu
     setLoading(true)
   }
 
-  const fetchRepoStatus = async (repoName, token) => {
+  const fetchRepoStatus = async (repo, token) => {
     try {
       const headers = token ? { 'Authorization': `token ${token}` } : {}
+      const owner = repo.owner || 'h3ow3d' // Fallback to h3ow3d for backwards compatibility
       
       // Fetch repository info, latest workflow runs, and open PRs in parallel
       const [repoResponse, runsResponse, prsResponse] = await Promise.all([
-        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}`, { headers }),
-        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}/actions/runs?per_page=1`, { headers }),
-        fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${repoName}/pulls?state=open&per_page=100`, { headers })
+        fetch(`https://api.github.com/repos/${owner}/${repo.name}`, { headers }),
+        fetch(`https://api.github.com/repos/${owner}/${repo.name}/actions/runs?per_page=1`, { headers }),
+        fetch(`https://api.github.com/repos/${owner}/${repo.name}/pulls?state=open&per_page=100`, { headers })
       ])
       
       if (!repoResponse.ok || !runsResponse.ok || !prsResponse.ok) {
@@ -124,7 +123,7 @@ export function useGitHubStatus(repositories, getActiveToken, authMethod, showAu
 
     // Fetch all repos in parallel for much faster loading
     const statusPromises = allRepos.map(async (repo) => {
-      const status = await fetchRepoStatus(repo.name, token)
+      const status = await fetchRepoStatus(repo, token)
       return { 
         name: repo.name, 
         status: { 
