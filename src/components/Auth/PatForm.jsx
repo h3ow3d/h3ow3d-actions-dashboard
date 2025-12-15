@@ -18,7 +18,7 @@ export function PatForm({
         <p className="color-fg-muted f6">Simple setup, use a PAT with <code className="p-1">repo</code> scope.</p>
         <p className="f6 mb-2">
           <a 
-            href="https://github.com/settings/tokens/new?scopes=repo&description=h3ow3d-dashboard" 
+            href="https://github.com/settings/tokens/new?scopes=repo&description=GitHub-Actions-Dashboard" 
             target="_blank" 
             rel="noopener noreferrer"
             className="Link--primary"

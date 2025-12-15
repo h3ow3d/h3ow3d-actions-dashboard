@@ -1,5 +1,7 @@
-export const GITHUB_OWNER = 'h3ow3d'
-
+/**
+ * Default repository configuration
+ * Users can customize their repositories in the Settings panel
+ */
 export const REPOSITORIES = {
   common: [],
   modules: [],

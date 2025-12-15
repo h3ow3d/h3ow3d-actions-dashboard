@@ -91,7 +91,7 @@ describe('AuthSetup Component', () => {
     it('shows Create a new token link', () => {
       render(<AuthSetup {...defaultProps} />)
       const link = screen.getByText('Create a new token')
-      expect(link.closest('a')).toHaveAttribute('href', 'https://github.com/settings/tokens/new?scopes=repo&description=h3ow3d-dashboard')
+      expect(link.closest('a')).toHaveAttribute('href', 'https://github.com/settings/tokens/new?scopes=repo&description=GitHub-Actions-Dashboard')
     })
 
     it('renders token input field', () => {
