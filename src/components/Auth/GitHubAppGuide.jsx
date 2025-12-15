@@ -16,17 +16,28 @@ function GitHubAppGuide({ onClose }) {
       onClick={onClose}
     >
       <div 
-        className="Box mt-6" 
         style={{
           maxWidth: '900px',
           width: '100%',
           maxHeight: '90vh',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)'
+          boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
+          border: '1px solid var(--borderColor-default)',
+          borderRadius: '6px',
+          marginTop: '48px',
+          background: 'var(--bgColor-default)'
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="Box-header d-flex flex-justify-between flex-items-center">
-          <h1 className="Box-title">GitHub App Setup Guide</h1>
+        <div style={{
+          background: 'var(--bgColor-muted)',
+          borderBottom: '1px solid var(--borderColor-default)',
+          borderRadius: '6px 6px 0 0',
+          padding: '16px 24px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <h1 style={{fontSize: '20px', fontWeight: 600, margin: 0}}>GitHub App Setup Guide</h1>
           <IconButton 
             onClick={onClose} 
             variant="danger"
@@ -35,28 +46,77 @@ function GitHubAppGuide({ onClose }) {
           />
         </div>
         
-        <div className="Box-body overflow-y-auto" style={{maxHeight: 'calc(90vh - 60px)'}}>
-          <div className="mb-3">
-            <details className="details-reset">
-              <summary className="btn btn-block text-left d-flex flex-justify-between flex-items-center">
-                <span className="d-flex flex-items-center gap-2">
-                  <span className="Label Label--primary" style={{width: '28px', height: '28px', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>1</span>
-                  <strong>Create GitHub App</strong>
-                </span>
+        <div style={{padding: '24px', overflowY: 'auto', maxHeight: 'calc(90vh - 80px)'}}>
+          <div style={{marginBottom: '16px'}}>
+            <details className="details-reset" style={{
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px',
+              marginBottom: '8px'
+            }}>
+              <summary style={{
+                padding: '12px 16px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'var(--bgColor-default)',
+                borderRadius: '6px',
+                userSelect: 'none'
+              }}>
+                <span style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'var(--bgColor-accent-emphasis)',
+                  color: 'var(--fgColor-onEmphasis)',
+                  fontSize: '14px',
+                  fontWeight: 600
+                }}>1</span>
+                <span>Create GitHub App</span>
               </summary>
-              <div className="p-3 border-top mt-2">
-                <p className="mb-3">
-                  <a href="https://github.com/settings/apps/new" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
-                    <LinkExternalIcon size={14} style={{marginRight: '0.25rem'}} />
+              <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
+                <div style={{marginBottom: '16px'}}>
+                  <a 
+                    href="https://github.com/settings/apps/new" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      padding: '8px 16px',
+                      background: 'var(--button-primary-bgColor)',
+                      color: 'var(--button-primary-fgColor)',
+                      border: '1px solid transparent',
+                      borderRadius: '6px',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      textDecoration: 'none',
+                      gap: '6px'
+                    }}
+                  >
+                    <LinkExternalIcon size={14} />
                     Open GitHub App creation form
                   </a>
-                </p>
+                </div>
                 
-                <div className="Box Box--condensed mb-3">
-                  <div className="Box-header">
-                    <h3 className="Box-title">Required Settings</h3>
+                <div style={{
+                  border: '1px solid var(--borderColor-default)',
+                  borderRadius: '6px',
+                  marginBottom: '16px'
+                }}>
+                  <div style={{
+                    background: 'var(--bgColor-muted)',
+                    borderBottom: '1px solid var(--borderColor-default)',
+                    padding: '12px 16px'
+                  }}>
+                    <h3 style={{fontSize: '14px', fontWeight: 600, margin: 0}}>Required Settings</h3>
                   </div>
-                  <div className="Box-body">
+                  <div style={{padding: '16px'}}>
                     <div className="mb-3">
                       <strong className="d-block mb-1">GitHub App name</strong>
                       <p className="f6 color-fg-muted">Choose any unique name (e.g., "My Actions Dashboard")</p>
@@ -97,26 +157,57 @@ function GitHubAppGuide({ onClose }) {
                   </div>
                 </div>
                 
-                <div className="flash flash-success">
-                  <CheckCircleIcon size={16} style={{marginRight: '0.5rem'}} />
+                <div style={{
+                  background: 'var(--bgColor-success-muted)',
+                  border: '1px solid var(--borderColor-success-emphasis)',
+                  borderRadius: '6px',
+                  padding: '12px 16px',
+                  display: 'flex',
+                  gap: '12px'
+                }}>
+                  <CheckCircleIcon size={16} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
                   <div>
-                    <strong>After creating the app:</strong>
-                    <p className="mb-0">Note down your <strong>App ID</strong> - it's displayed at the top of your app's settings page</p>
+                    <strong style={{display: 'block', marginBottom: '4px'}}>After creating the app:</strong>
+                    <p style={{margin: 0, fontSize: '14px'}}>Note down your <strong>App ID</strong> - it's displayed at the top of your app's settings page</p>
                   </div>
                 </div>
               </div>
             </details>
           </div>
           
-          <div className="mb-3">
-            <details className="details-reset">
-              <summary className="btn btn-block text-left d-flex flex-justify-between flex-items-center">
-                <span className="d-flex flex-items-center gap-2">
-                  <span className="Label Label--primary" style={{width: '28px', height: '28px', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>2</span>
-                  <strong>Generate Private Key</strong>
-                </span>
+          <div style={{marginBottom: '16px'}}>
+            <details className="details-reset" style={{
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px',
+              marginBottom: '8px'
+            }}>
+              <summary style={{
+                padding: '12px 16px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'var(--bgColor-default)',
+                borderRadius: '6px',
+                userSelect: 'none'
+              }}>
+                <span style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'var(--bgColor-accent-emphasis)',
+                  color: 'var(--fgColor-onEmphasis)',
+                  fontSize: '14px',
+                  fontWeight: 600
+                }}>2</span>
+                <span>Generate Private Key</span>
               </summary>
-              <div className="p-3 border-top mt-2">
+              <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
                 <ol className="ml-3">
                   <li className="mb-2">On your GitHub App settings page, scroll down to the "Private keys" section</li>
                   <li className="mb-2">Click the <strong>"Generate a private key"</strong> button</li>
@@ -139,28 +230,64 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   <li>The key should start with <code className="f6">-----BEGIN PRIVATE KEY-----</code> (not "RSA PRIVATE KEY")</li>
                 </ol>
                 
-                <div className="flash flash-warn mt-3">
-                  <strong>⚠️ Security Note:</strong>
-                  <p className="mb-0">Keep this private key secure! It's like a password for your GitHub App. Never commit it to version control or share it publicly.</p>
+                <div style={{
+                  background: 'var(--bgColor-attention-muted)',
+                  border: '1px solid var(--borderColor-attention-emphasis)',
+                  borderRadius: '6px',
+                  padding: '12px 16px',
+                  marginTop: '16px'
+                }}>
+                  <strong style={{display: 'block', marginBottom: '4px'}}>⚠️ Security Note:</strong>
+                  <p style={{margin: 0, fontSize: '14px'}}>Keep this private key secure! It's like a password for your GitHub App. Never commit it to version control or share it publicly.</p>
                 </div>
                 
-                <div className="flash mt-3">
-                  <strong>Why convert?</strong>
-                  <p className="mb-0">GitHub generates keys in PKCS#1 format (<code className="f6">BEGIN RSA PRIVATE KEY</code>), but the authentication library requires PKCS#8 format (<code className="f6">BEGIN PRIVATE KEY</code>) for better security and compatibility.</p>
+                <div style={{
+                  background: 'var(--bgColor-muted)',
+                  border: '1px solid var(--borderColor-default)',
+                  borderRadius: '6px',
+                  padding: '12px 16px',
+                  marginTop: '16px'
+                }}>
+                  <strong style={{display: 'block', marginBottom: '4px'}}>Why convert?</strong>
+                  <p style={{margin: 0, fontSize: '14px'}}>GitHub generates keys in PKCS#1 format (<code className="f6">BEGIN RSA PRIVATE KEY</code>), but the authentication library requires PKCS#8 format (<code className="f6">BEGIN PRIVATE KEY</code>) for better security and compatibility.</p>
                 </div>
               </div>
             </details>
           </div>
           
-          <div className="mb-3">
-            <details className="details-reset">
-              <summary className="btn btn-block text-left d-flex flex-justify-between flex-items-center">
-                <span className="d-flex flex-items-center gap-2">
-                  <span className="Label Label--primary" style={{width: '28px', height: '28px', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>3</span>
-                  <strong>Install the App</strong>
-                </span>
+          <div style={{marginBottom: '16px'}}>
+            <details className="details-reset" style={{
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px',
+              marginBottom: '8px'
+            }}>
+              <summary style={{
+                padding: '12px 16px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'var(--bgColor-default)',
+                borderRadius: '6px',
+                userSelect: 'none'
+              }}>
+                <span style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'var(--bgColor-accent-emphasis)',
+                  color: 'var(--fgColor-onEmphasis)',
+                  fontSize: '14px',
+                  fontWeight: 600
+                }}>3</span>
+                <span>Install the App</span>
               </summary>
-              <div className="p-3 border-top mt-2">
+              <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
                 <ol className="ml-3">
                   <li className="mb-2">In your GitHub App settings, click <strong>"Install App"</strong> in the left sidebar</li>
                   <li className="mb-2">Click the <strong>"Install"</strong> button next to your account/organization</li>
@@ -185,50 +312,91 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
             </details>
           </div>
           
-          <div className="mb-3">
-            <details className="details-reset">
-              <summary className="btn btn-block text-left d-flex flex-justify-between flex-items-center">
-                <span className="d-flex flex-items-center gap-2">
-                  <span className="Label Label--primary" style={{width: '28px', height: '28px', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>4</span>
-                  <strong>Configure Dashboard</strong>
-                </span>
+          <div style={{marginBottom: '16px'}}>
+            <details className="details-reset" style={{
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px',
+              marginBottom: '8px'
+            }}>
+              <summary style={{
+                padding: '12px 16px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'var(--bgColor-default)',
+                borderRadius: '6px',
+                userSelect: 'none'
+              }}>
+                <span style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'var(--bgColor-accent-emphasis)',
+                  color: 'var(--fgColor-onEmphasis)',
+                  fontSize: '14px',
+                  fontWeight: 600
+                }}>4</span>
+                <span>Configure Dashboard</span>
               </summary>
-              <div className="p-3 border-top mt-2">
-                <p className="mb-3">Now you have all three pieces of information needed:</p>
+              <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
+                <p style={{marginBottom: '16px', fontSize: '14px'}}>Now you have all three pieces of information needed:</p>
                 
-                <div className="mb-3">
-                  <div className="Box Box--condensed mb-2">
-                    <div className="Box-row d-flex gap-3">
-                      <CheckCircleIcon size={20} className="color-fg-success flex-shrink-0" />
-                      <div>
-                        <strong className="d-block">App ID</strong>
-                        <p className="f6 color-fg-muted mb-0">From your GitHub App settings page (usually 6 digits)</p>
-                      </div>
+                <div style={{marginBottom: '16px'}}>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '12px 16px',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'flex-start'
+                  }}>
+                    <CheckCircleIcon size={20} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
+                    <div>
+                      <strong style={{display: 'block', marginBottom: '4px'}}>App ID</strong>
+                      <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>From your GitHub App settings page (usually 6 digits)</p>
                     </div>
                   </div>
                   
-                  <div className="Box Box--condensed mb-2">
-                    <div className="Box-row d-flex gap-3">
-                      <CheckCircleIcon size={20} className="color-fg-success flex-shrink-0" />
-                      <div>
-                        <strong className="d-block">Installation ID</strong>
-                        <p className="f6 color-fg-muted mb-0">From the installation URL (usually 8 digits)</p>
-                      </div>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '12px 16px',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'flex-start'
+                  }}>
+                    <CheckCircleIcon size={20} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
+                    <div>
+                      <strong style={{display: 'block', marginBottom: '4px'}}>Installation ID</strong>
+                      <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>From the installation URL (usually 8 digits)</p>
                     </div>
                   </div>
                   
-                  <div className="Box Box--condensed">
-                    <div className="Box-row d-flex gap-3">
-                      <CheckCircleIcon size={20} className="color-fg-success flex-shrink-0" />
-                      <div>
-                        <strong className="d-block">Private Key</strong>
-                        <p className="f6 color-fg-muted mb-0">Contents of the converted PKCS#8 .pem file</p>
-                      </div>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '12px 16px',
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'flex-start'
+                  }}>
+                    <CheckCircleIcon size={20} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
+                    <div>
+                      <strong style={{display: 'block', marginBottom: '4px'}}>Private Key</strong>
+                      <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Contents of the converted PKCS#8 .pem file</p>
                     </div>
                   </div>
                 </div>
                 
-                <p className="mb-2">Click the button below to return to the configuration form and enter these credentials.</p>
+                <p style={{marginBottom: '12px', fontSize: '14px'}}>Click the button below to return to the configuration form and enter these credentials.</p>
                 
                 <Button 
                   onClick={onClose} 
@@ -241,49 +409,105 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
             </details>
           </div>
           
-          <div className="mb-3">
-            <details className="details-reset">
-              <summary className="btn btn-block text-left">
-                <strong>Troubleshooting</strong>
+          <div style={{marginBottom: '16px'}}>
+            <details className="details-reset" style={{
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px',
+              marginBottom: '8px'
+            }}>
+              <summary style={{
+                padding: '12px 16px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'var(--bgColor-default)',
+                borderRadius: '6px',
+                userSelect: 'none'
+              }}>
+                <span>Troubleshooting</span>
               </summary>
-              <div className="p-3 border-top mt-2">
-                <details className="Box Box--condensed mb-2">
-                  <summary className="Box-row">
-                    <strong>Error: "Failed to authenticate with GitHub App"</strong>
+              <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
+                <details style={{
+                  border: '1px solid var(--borderColor-default)',
+                  borderRadius: '6px',
+                  marginBottom: '12px'
+                }}>
+                  <summary style={{
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    background: 'var(--bgColor-default)',
+                    borderRadius: '6px'
+                  }}>
+                    Error: "Failed to authenticate with GitHub App"
                   </summary>
-                  <div className="Box-row border-top">
-                    <ul className="ml-3">
-                      <li>Double-check your App ID and Installation ID are correct</li>
-                      <li>Ensure you copied the entire private key including BEGIN/END lines</li>
-                      <li>Verify your GitHub App has the correct permissions (Actions: Read-only)</li>
-                      <li>Make sure the app is installed on your account/repos</li>
+                  <div style={{
+                    padding: '12px 16px',
+                    borderTop: '1px solid var(--borderColor-default)'
+                  }}>
+                    <ul style={{marginLeft: '20px', fontSize: '14px'}}>
+                      <li style={{marginBottom: '8px'}}>Double-check your App ID and Installation ID are correct</li>
+                      <li style={{marginBottom: '8px'}}>Ensure you copied the entire private key including BEGIN/END lines</li>
+                      <li style={{marginBottom: '8px'}}>Verify your GitHub App has the correct permissions (Actions: Read-only)</li>
+                      <li style={{marginBottom: '8px'}}>Make sure the app is installed on your account/repos</li>
                       <li>Confirm you converted the key to PKCS#8 format</li>
                     </ul>
                   </div>
                 </details>
                 
-                <details className="Box Box--condensed mb-2">
-                  <summary className="Box-row">
-                    <strong>Can't find my Installation ID</strong>
+                <details style={{
+                  border: '1px solid var(--borderColor-default)',
+                  borderRadius: '6px',
+                  marginBottom: '12px'
+                }}>
+                  <summary style={{
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    background: 'var(--bgColor-default)',
+                    borderRadius: '6px'
+                  }}>
+                    Can't find my Installation ID
                   </summary>
-                  <div className="Box-row border-top">
-                    <ul className="ml-3">
-                      <li>Go to <a href="https://github.com/settings/installations" target="_blank" rel="noopener noreferrer" className="Link--primary">github.com/settings/installations</a></li>
-                      <li>Click "Configure" next to your app</li>
+                  <div style={{
+                    padding: '12px 16px',
+                    borderTop: '1px solid var(--borderColor-default)'
+                  }}>
+                    <ul style={{marginLeft: '20px', fontSize: '14px'}}>
+                      <li style={{marginBottom: '8px'}}>Go to <a href="https://github.com/settings/installations" target="_blank" rel="noopener noreferrer" style={{color: 'var(--fgColor-accent)', textDecoration: 'none'}}>github.com/settings/installations</a></li>
+                      <li style={{marginBottom: '8px'}}>Click "Configure" next to your app</li>
                       <li>Look at the URL - the number at the end is your Installation ID</li>
                     </ul>
                   </div>
                 </details>
                 
-                <details className="Box Box--condensed">
-                  <summary className="Box-row">
-                    <strong>App shows "Authentication required" errors</strong>
+                <details style={{
+                  border: '1px solid var(--borderColor-default)',
+                  borderRadius: '6px'
+                }}>
+                  <summary style={{
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    background: 'var(--bgColor-default)',
+                    borderRadius: '6px'
+                  }}>
+                    App shows "Authentication required" errors
                   </summary>
-                  <div className="Box-row border-top">
-                    <ul className="ml-3">
-                      <li>Installation tokens expire after 1 hour (but auto-refresh)</li>
-                      <li>Try refreshing the page to generate a new token</li>
-                      <li>Verify the GitHub App is still installed on your account</li>
+                  <div style={{
+                    padding: '12px 16px',
+                    borderTop: '1px solid var(--borderColor-default)'
+                  }}>
+                    <ul style={{marginLeft: '20px', fontSize: '14px'}}>
+                      <li style={{marginBottom: '8px'}}>Installation tokens expire after 1 hour (but auto-refresh)</li>
+                      <li style={{marginBottom: '8px'}}>Try refreshing the page to generate a new token</li>
+                      <li style={{marginBottom: '8px'}}>Verify the GitHub App is still installed on your account</li>
                       <li>Check that the app has access to the repositories you're trying to view</li>
                     </ul>
                   </div>
@@ -293,38 +517,60 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
           </div>
           
           <div>
-            <details className="details-reset">
-              <summary className="btn btn-block text-left">
-                <strong>Why GitHub Apps?</strong>
+            <details className="details-reset" style={{
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px'
+            }}>
+              <summary style={{
+                padding: '12px 16px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'var(--bgColor-default)',
+                borderRadius: '6px',
+                userSelect: 'none'
+              }}>
+                <span>Why GitHub Apps?</span>
               </summary>
-              <div className="p-3 border-top mt-2">
+              <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px'}}>
-                  <div className="Box">
-                    <div className="Box-body">
-                      <h3 className="f5 mb-2">🔒 More Secure</h3>
-                      <p className="f6 color-fg-muted mb-0">Fine-grained permissions scoped to specific repositories and actions</p>
-                    </div>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '16px'
+                  }}>
+                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>🔒 More Secure</h3>
+                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Fine-grained permissions scoped to specific repositories and actions</p>
                   </div>
                   
-                  <div className="Box">
-                    <div className="Box-body">
-                      <h3 className="f5 mb-2">🔄 Auto-Refresh</h3>
-                      <p className="f6 color-fg-muted mb-0">Installation tokens automatically refresh - no manual token rotation</p>
-                    </div>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '16px'
+                  }}>
+                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>🔄 Auto-Refresh</h3>
+                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Installation tokens automatically refresh - no manual token rotation</p>
                   </div>
                   
-                  <div className="Box">
-                    <div className="Box-body">
-                      <h3 className="f5 mb-2">👥 Team Friendly</h3>
-                      <p className="f6 color-fg-muted mb-0">Not tied to a specific user account - better for organizations</p>
-                    </div>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '16px'
+                  }}>
+                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>👥 Team Friendly</h3>
+                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Not tied to a specific user account - better for organizations</p>
                   </div>
                   
-                  <div className="Box">
-                    <div className="Box-body">
-                      <h3 className="f5 mb-2">📊 Better Audit Trail</h3>
-                      <p className="f6 color-fg-muted mb-0">Enhanced logging and activity tracking in GitHub</p>
-                    </div>
+                  <div style={{
+                    border: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px',
+                    padding: '16px'
+                  }}>
+                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>📊 Better Audit Trail</h3>
+                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Enhanced logging and activity tracking in GitHub</p>
                   </div>
                 </div>
               </div>

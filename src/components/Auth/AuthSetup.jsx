@@ -1,4 +1,4 @@
-import { MarkGithubIcon, GearIcon } from '@primer/octicons-react'
+import { MarkGithubIcon, GearIcon, LinkExternalIcon } from '@primer/octicons-react'
 import { Button } from '@primer/react'
 import GitHubAppGuide from './GitHubAppGuide'
 import { GitHubAppForm } from './GitHubAppForm'
@@ -24,58 +24,92 @@ export function AuthSetup({
   return (
     <>
       {showGuide && <GitHubAppGuide onClose={() => setShowGuide(false)} />}
-      <div className="p-3" style={{minHeight: '100vh', maxWidth: '480px', margin: '0 auto'}}>
-        <div className="pt-6">
-          <h1 className="f3 text-normal mb-2">
-            <MarkGithubIcon size={32} style={{display: 'inline', marginRight: '0.5rem', verticalAlign: 'text-bottom'}} />
-            GitHub Authentication
-          </h1>
-          <p className="color-fg-muted">Choose an authentication method to access workflow statuses.</p>
+      <div 
+        className="d-flex flex-column flex-items-center" 
+        style={{
+          minHeight: '100vh',
+          maxHeight: '100vh',
+          background: 'var(--bgColor-default)',
+          padding: '24px',
+          overflowY: 'auto',
+          overflowX: 'hidden'
+        }}
+      >
+        <div style={{maxWidth: '480px', width: '100%', paddingTop: '40px', paddingBottom: '40px'}}>
+          <div className="text-center mb-5">
+            <MarkGithubIcon size={48} style={{marginBottom: '16px'}} />
+            <h1 className="h2 mb-2">GitHub Authentication</h1>
+            <p className="color-fg-muted f4">Choose an authentication method to access workflow statuses.</p>
+          </div>
         
         {!showGitHubAppForm && (
           <>
-            <div className="Box mt-4">
-              <div className="Box-header">
-                <h2 className="Box-title">
-                  <GearIcon size={20} style={{display: 'inline', marginRight: '0.5rem', verticalAlign: 'text-bottom'}} />
+            <div style={{
+              boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px'
+            }}>
+              <div style={{
+                background: 'var(--bgColor-muted)',
+                borderBottom: '1px solid var(--borderColor-default)',
+                borderRadius: '6px 6px 0 0',
+                padding: '16px 24px'
+              }}>
+                <h2 style={{fontSize: '16px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center'}}>
+                  <GearIcon size={20} style={{marginRight: '8px'}} />
                   GitHub App (Recommended)
                 </h2>
               </div>
-              <div className="Box-body">
-                <p className="color-fg-muted f6">More secure, automatic token refresh, fine-grained permissions.</p>
+              <div style={{padding: '32px 40px 16px 40px'}}>
+                <p className="color-fg-muted f5 mb-3">More secure, automatic token refresh, fine-grained permissions.</p>
                 <Button 
                   onClick={() => setShowGitHubAppForm(true)} 
                   variant="primary"
                   block
+                  size="large"
                   leadingVisual={MarkGithubIcon}
-                  sx={{ mt: 3 }}
                 >
                   Configure GitHub App
                 </Button>
-                <p className="note f6 color-fg-muted mt-2 mb-0">
-                  Need help?{' '}
-                  <Button 
+                <p className="f6 color-fg-muted mt-3 mb-0 text-center">
+                  <button 
                     onClick={(e) => { e.preventDefault(); setShowGuide(true); }} 
-                    variant="invisible"
-                    sx={{ padding: 0, height: 'auto', fontWeight: 'normal' }}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      padding: 0, 
+                      cursor: 'pointer', 
+                      font: 'inherit',
+                      color: 'var(--fgColor-accent)',
+                      textDecoration: 'none'
+                    }}
+                    onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+                    onMouseOut={(e) => e.target.style.textDecoration = 'none'}
                   >
-                    View setup guide
-                  </Button>
+                    Need help?
+                    <LinkExternalIcon size={14} style={{display: 'inline', marginLeft: '4px', verticalAlign: 'text-bottom'}} />
+                  </button>
                 </p>
               </div>
             </div>
             
-            <div className="d-flex flex-items-center my-4">
-              <div className="flex-1 border-bottom"></div>
-              <span className="px-3 f6 color-fg-muted">OR</span>
-              <div className="flex-1 border-bottom"></div>
+            <div className="d-flex flex-items-center my-5">
+              <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
+              <span className="px-4 f5 color-fg-muted" style={{fontWeight: 600}}>OR</span>
+              <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
             </div>
             
-            <PatForm
-              githubToken={githubToken}
-              setGithubToken={setGithubToken}
-              onSubmit={saveToken}
-            />
+            <div style={{
+              boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
+              border: '1px solid var(--borderColor-default)',
+              borderRadius: '6px'
+            }}>
+              <PatForm
+                githubToken={githubToken}
+                setGithubToken={setGithubToken}
+                onSubmit={saveToken}
+              />
+            </div>
           </>
         )}
         
