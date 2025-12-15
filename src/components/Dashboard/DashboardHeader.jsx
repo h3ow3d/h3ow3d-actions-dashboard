@@ -6,7 +6,8 @@ import {
   ClockIcon,
   TagIcon,
   XIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  BugIcon
 } from '@primer/octicons-react'
 import { Button, IconButton, Select, Checkbox, Label, ActionMenu, ActionList } from '@primer/react'
 import { ThemeToggle } from '../UI/ThemeToggle'
@@ -84,6 +85,16 @@ export function DashboardHeader({
         </div>
         
         <div className="d-flex flex-items-center" style={{ gap: '4px' }}>
+          <IconButton
+            icon={BugIcon}
+            as="a"
+            href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/issues/new/choose"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Report an issue"
+            title="Report an issue"
+            size="medium"
+          />
           <FullscreenToggle isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
           <IconButton

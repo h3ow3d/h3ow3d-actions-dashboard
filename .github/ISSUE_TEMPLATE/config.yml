@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/h3ow3d/h3ow3d-actions-dashboard/blob/main/README.md
+    about: Check the documentation for usage instructions and setup guides
+  - name: 💬 Discussions
+    url: https://github.com/h3ow3d/h3ow3d-actions-dashboard/discussions
+    about: Ask questions and discuss ideas with the community
