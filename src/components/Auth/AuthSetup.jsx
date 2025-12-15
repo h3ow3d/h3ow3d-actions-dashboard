@@ -1,5 +1,5 @@
-import { MarkGithubIcon, GearIcon, LinkExternalIcon, BeakerIcon, SignOutIcon, LightBulbIcon } from '@primer/octicons-react'
-import { Button } from '@primer/react'
+import { MarkGithubIcon, GearIcon, LinkExternalIcon, BeakerIcon, SignOutIcon, LightBulbIcon, ShieldLockIcon } from '@primer/octicons-react'
+import { Button, Flash } from '@primer/react'
 import GitHubAppGuide from './GitHubAppGuide'
 import { GitHubAppForm } from './GitHubAppForm'
 import { PatForm } from './PatForm'
@@ -46,6 +46,13 @@ export function AuthSetup({
             <MarkGithubIcon size={48} style={{marginBottom: '16px'}} />
             <h1 className="h2 mb-2">GitHub Authentication</h1>
             <p className="color-fg-muted f4">Choose an authentication method to access workflow statuses.</p>
+          </div>
+
+          <div style={{ marginBottom: '24px' }}>
+            <Flash variant="default">
+              <ShieldLockIcon size={16} style={{marginRight: '8px', verticalAlign: 'text-bottom'}} />
+              Your credentials are stored locally in your browser. No data is sent to or stored on external servers.
+            </Flash>
           </div>
         
         {!showGitHubAppForm && (

@@ -97,7 +97,6 @@ export function PatForm({
             {isValidatingPat ? 'Validating Token...' : 'Save Token & Continue'}
           </Button>
         </div>
-        <p className="f6 color-fg-muted mt-3 mb-0 text-center">Token is stored locally in your browser.</p>
       </div>
     </div>
   )
