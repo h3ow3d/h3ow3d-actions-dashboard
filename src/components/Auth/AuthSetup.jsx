@@ -50,8 +50,32 @@ export function AuthSetup({
 
           <div style={{ marginBottom: '24px' }}>
             <Flash variant="default">
-              <ShieldLockIcon size={16} style={{marginRight: '8px', verticalAlign: 'text-bottom'}} />
-              Your credentials are stored locally in your browser. No data is sent to or stored on external servers.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div>
+                  <ShieldLockIcon size={16} style={{marginRight: '8px', verticalAlign: 'text-bottom'}} />
+                  <strong>Your data is protected:</strong>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '28px', fontSize: '14px' }}>
+                  <li>Credentials stored locally in your browser only</li>
+                  <li>Content Security Policy blocks unauthorized scripts</li>
+                  <li>No data transmission to external servers</li>
+                  <li>Same-origin policy prevents access from other sites</li>
+                </ul>
+                <div style={{ fontSize: '12px', marginTop: '4px' }}>
+                  <a 
+                    href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/blob/main/SECURITY.md" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'var(--fgColor-accent)',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    View our security practices
+                    <LinkExternalIcon size={12} style={{display: 'inline', marginLeft: '2px', verticalAlign: 'text-bottom'}} />
+                  </a>
+                </div>
+              </div>
             </Flash>
           </div>
         
