@@ -5,6 +5,7 @@ import { AuthSetup } from './components/Auth/AuthSetup'
 import { Settings } from './components/Settings/Settings'
 import { HotkeyHelper } from './components/UI/HotkeyHelper'
 import { LandingPage } from './components/LandingPage/LandingPage'
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary'
 import { useGitHubStatus } from './hooks/useGitHubStatus'
 import { useTheme } from './hooks/useTheme'
 import { useAuth } from './hooks/useAuth'
@@ -190,47 +191,49 @@ function App() {
   }
 
   return (
-    <div className="dashboard-mode">
-      <Dashboard
-        repoStatuses={repoStatuses}
-        loading={loading}
-        lastUpdate={lastUpdate}
-        fetchAllStatuses={fetchAllStatuses}
-        isFullscreen={isFullscreen}
-        toggleFullscreen={toggleFullscreen}
-        authMethod={auth.authMethod}
-        appInfo={auth.appInfo}
-        handleLogout={auth.handleLogout}
-        clearToken={auth.clearToken}
-        theme={theme}
-        setTheme={setTheme}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        autoRefresh={autoRefresh}
-        setAutoRefresh={setAutoRefresh}
-        refreshInterval={refreshInterval}
-        setRefreshInterval={setRefreshInterval}
-        onOpenSettings={() => setShowSettings(true)}
-        filterByLabels={filterByLabels}
-        setFilterByLabels={setFilterByLabels}
-        isDemoMode={isDemoMode}
-        toggleDemoMode={toggleDemoMode}
-        canToggleDemoMode={canToggleDemoMode}
-        onToggleHotkeyHelper={() => setShowHotkeyHelper(prev => !prev)}
-      />
-      {showSettings && (
-        <Settings
-          onClose={() => setShowSettings(false)}
-          getActiveToken={auth.getActiveToken}
-          selectedRepos={selectedRepos}
-          onSaveRepos={handleSaveRepos}
+    <ErrorBoundary>
+      <div className="dashboard-mode">
+        <Dashboard
+          repoStatuses={repoStatuses}
+          loading={loading}
+          lastUpdate={lastUpdate}
+          fetchAllStatuses={fetchAllStatuses}
+          isFullscreen={isFullscreen}
+          toggleFullscreen={toggleFullscreen}
+          authMethod={auth.authMethod}
+          appInfo={auth.appInfo}
+          handleLogout={auth.handleLogout}
+          clearToken={auth.clearToken}
+          theme={theme}
+          setTheme={setTheme}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          autoRefresh={autoRefresh}
+          setAutoRefresh={setAutoRefresh}
+          refreshInterval={refreshInterval}
+          setRefreshInterval={setRefreshInterval}
+          onOpenSettings={() => setShowSettings(true)}
+          filterByLabels={filterByLabels}
+          setFilterByLabels={setFilterByLabels}
+          isDemoMode={isDemoMode}
+          toggleDemoMode={toggleDemoMode}
+          canToggleDemoMode={canToggleDemoMode}
+          onToggleHotkeyHelper={() => setShowHotkeyHelper(prev => !prev)}
         />
-      )}
-      <HotkeyHelper 
-        isOpen={showHotkeyHelper} 
-        onClose={() => setShowHotkeyHelper(false)} 
-      />
-    </div>
+        {showSettings && (
+          <Settings
+            onClose={() => setShowSettings(false)}
+            getActiveToken={auth.getActiveToken}
+            selectedRepos={selectedRepos}
+            onSaveRepos={handleSaveRepos}
+          />
+        )}
+        <HotkeyHelper 
+          isOpen={showHotkeyHelper} 
+          onClose={() => setShowHotkeyHelper(false)} 
+        />
+      </div>
+    </ErrorBoundary>
   )
 }
 
