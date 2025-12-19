@@ -58,25 +58,6 @@
   line-height: 1.4;
 }
 
-.repo-card__labels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  margin-top: 6px;
-  margin-left: auto;
-  justify-content: flex-end;
-  max-width: 100%;
-  line-height: 1;
-}
-
-.repo-card__labels > span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-  flex-shrink: 1;
-}
-
 .repo-card__status-icon {
   flex-shrink: 0;
 }
@@ -149,6 +130,7 @@
   gap: 8px;
   padding: 12px 16px;
   border-top: 1px solid var(--borderColor-default);
+  min-height: 48px;
 }
 
 .repo-card__footer a,
@@ -160,6 +142,20 @@
 .repo-card__no-runs {
   font-size: 12px;
   color: var(--fgColor-muted);
+}
+
+.repo-card__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+}
+
+.repo-card__labels > span[class*="Label"] {
+  font-size: 12px !important;
+  line-height: 18px !important;
 }
 
 /* Status stripes for different workflow states */

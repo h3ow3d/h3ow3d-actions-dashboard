@@ -106,14 +106,8 @@ export function RepoCard({ repoName, status }) {
             topics.map(topic => (
               <Label
                 key={topic}
-                sx={{
-                  backgroundColor: getTopicColor(topic),
-                  color: 'white',
-                  fontSize: 0,
-                  px: 1,
-                  py: 0,
-                  lineHeight: '18px'
-                }}
+                variant="accent"
+                size="small"
               >
                 {topic}
               </Label>

@@ -44,9 +44,8 @@ export function useAuth() {
         setAuthMethod('pat')
       } else if (localStorage.getItem('demo_mode') === 'true') {
         setAuthMethod('demo')
-      } else {
-        setShowAuthSetup(true)
       }
+      // If no auth is found, don't set showAuthSetup - let the landing page show
     }
     checkAuth()
   }, [])
@@ -113,7 +112,7 @@ export function useAuth() {
     }
     setGithubToken('')
     setAuthMethod('none')
-    setShowAuthSetup(true)
+    setShowAuthSetup(false)
   }
   
   const handleDemoMode = () => {
@@ -179,6 +178,7 @@ export function useAuth() {
     // Setters
     setGithubToken,
     setShowGitHubAppForm,
+    setShowAuthSetup,
     setAppId,
     setPrivateKey,
     setInstallationId,

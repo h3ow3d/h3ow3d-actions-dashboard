@@ -63,7 +63,7 @@ export function AuthSetup({
                 </ul>
                 <div style={{ fontSize: '12px', marginTop: '4px' }}>
                   <a 
-                    href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/blob/main/SECURITY.md" 
+                    href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/blob/main/docs/SECURITY.md" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     style={{

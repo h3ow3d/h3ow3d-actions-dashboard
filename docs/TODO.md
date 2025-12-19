@@ -130,6 +130,53 @@
 
 ---
 
+## Security (RECENTLY COMPLETED)
+
+- [x] Add Content Security Policy (CSP) meta to `index.html` to restrict script sources and connections
+- [x] Add additional security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy)
+- [x] Move SECURITY.md to `docs/` and surface link in the UI
+- [x] Document security trade-offs and mitigation strategies in `docs/SECURITY.md`
+
+---
+
+## Next steps (PRIORITIZED)
+
+1. **Dynamic Repository Configuration**
+   - UI for adding/removing repositories without code changes
+   - Import/export configuration as JSON/YAML
+   - Support multiple GitHub organizations
+   - Custom repository grouping and categories
+
+2. **Enhanced Filtering & Search**
+   - Search repositories by name
+   - Filter by workflow status, category, or labels
+   - Advanced sorting options (by PR count, last updated, etc.)
+
+3. **Notifications & Alerts**
+   - Browser notifications for workflow failures
+   - Desktop notification support
+   - Configurable alert preferences per repository
+
+4. **Optional Backend for Teams**
+   - Server component for HttpOnly cookie auth (more secure)
+   - Shared team configurations
+   - OAuth/GitHub App server flow for enterprise
+
+5. **Performance & UX**
+   - Virtual scrolling for large repository lists
+   - Pagination with auto-play mode
+   - Better caching strategy
+   - Loading skeleton screens
+
+6. **Testing & Quality**
+   - Add E2E tests for authentication flows
+   - Increase unit test coverage
+   - CI job for dependency vulnerability scanning
+   - TypeScript migration (optional)
+
+
+---
+
 ## Completed Features
 
 ### Themes
