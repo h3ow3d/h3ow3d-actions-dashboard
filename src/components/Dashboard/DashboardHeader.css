@@ -100,7 +100,6 @@
   gap: 12px;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--borderColor-muted);
   animation: fadeInUp 0.4s ease-out 0.2s backwards;
 }
 
