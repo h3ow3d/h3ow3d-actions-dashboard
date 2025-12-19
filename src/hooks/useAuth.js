@@ -51,13 +51,24 @@ export function useAuth() {
     checkAuth()
   }, [])
 
-  const getActiveToken = async () => {
+  /**
+   * Gets the currently active authentication token
+   * @returns {string|null} The active token (PAT or GitHub App token) or null if none exists
+   */
+  const getActiveToken = () => {
     if (authMethod === 'github-app') {
-      return await getGitHubAppToken()
+      return getGitHubAppToken()
     }
     return githubToken
   }
 
+  /**
+   * Validates and saves a Personal Access Token
+   * Tests the token by making an API call to GitHub before storing it
+   * @async
+   * @throws {Error} When network request fails
+   * @returns {Promise<void>}
+   */
   const saveToken = async () => {
     setPatError('')
     setIsValidatingPat(true)
@@ -95,6 +106,9 @@ export function useAuth() {
     }
   }
 
+  /**
+   * Clears the stored PAT and resets authentication state
+   */
   const clearToken = () => {
     localStorage.removeItem('github_token')
     setGithubToken('')
@@ -102,6 +116,10 @@ export function useAuth() {
     setShowAuthSetup(true)
   }
 
+  /**
+   * Handles logout for all authentication methods
+   * Clears credentials and resets to initial auth state
+   */
   const handleLogout = () => {
     if (authMethod === 'github-app') {
       clearGitHubAppAuth()
@@ -119,9 +137,15 @@ export function useAuth() {
   const handleDemoMode = () => {
     localStorage.setItem('demo_mode', 'true')
     setAuthMethod('demo')
-    setShowAuthSetup(false)
+    setShowAuthSetup(true)
   }
 
+  /**
+   * Validates and saves GitHub App credentials
+   * Tests the credentials by generating a token before storing
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleGitHubAppSetup = async () => {
     setAppFormError('')
     setIsValidatingGitHubApp(true)
