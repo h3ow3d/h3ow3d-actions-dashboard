@@ -157,7 +157,7 @@ export function LandingPage({ onGetStarted, theme, setTheme }) {
                 icon={theme === 'dark' ? SunIcon : MoonIcon}
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 aria-label="Toggle theme"
-                variant="invisible"
+                className="color-fg-muted"
               />
               <Button variant="primary" onClick={onGetStarted} trailingVisual={ChevronRightIcon}>
                 Get Started
