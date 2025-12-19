@@ -10,6 +10,7 @@ import { useTheme } from './hooks/useTheme'
 import { useAuth } from './hooks/useAuth'
 import { REPOSITORIES } from './constants'
 import { logger } from './utils/logger'
+import { DEFAULT_REFRESH_INTERVAL } from './constants/timing'
 
 function App() {
   const [showLanding, setShowLanding] = useState(true)
@@ -17,7 +18,7 @@ function App() {
   const [theme, setTheme] = useTheme()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [autoRefresh, setAutoRefresh] = useState(true)
-  const [refreshInterval, setRefreshInterval] = useState(10)
+  const [refreshInterval, setRefreshInterval] = useState(DEFAULT_REFRESH_INTERVAL)
   const [showGuide, setShowGuide] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showHotkeyHelper, setShowHotkeyHelper] = useState(false)

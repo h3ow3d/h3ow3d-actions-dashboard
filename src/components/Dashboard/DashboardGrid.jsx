@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { RepoCard } from './RepoCard'
+import { INITIAL_LOAD_ANIMATION_DURATION } from '../../constants/timing'
 import './DashboardGrid.css'
 
 /**
@@ -13,7 +14,7 @@ export function DashboardGrid({ repositories }) {
     // Remove the initial-load class after animation completes
     const timer = setTimeout(() => {
       setIsInitialLoad(false)
-    }, 1000) // After all animations complete (longest is ~750ms)
+    }, INITIAL_LOAD_ANIMATION_DURATION) // After all animations complete (longest is ~750ms)
 
     return () => clearTimeout(timer)
   }, [])
