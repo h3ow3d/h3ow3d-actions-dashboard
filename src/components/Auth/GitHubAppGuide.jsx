@@ -22,7 +22,7 @@ function GitHubAppGuide({ onClose }) {
           maxHeight: '90vh',
           boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
           border: '1px solid var(--borderColor-default)',
-          borderRadius: '6px',
+          borderRadius: '12px',
           marginTop: '48px',
           background: 'var(--bgColor-default)'
         }}
@@ -31,7 +31,7 @@ function GitHubAppGuide({ onClose }) {
         <div style={{
           background: 'var(--bgColor-muted)',
           borderBottom: '1px solid var(--borderColor-default)',
-          borderRadius: '6px 6px 0 0',
+          borderRadius: '12px 12px 0 0',
           padding: '16px 24px',
           display: 'flex',
           justifyContent: 'space-between',
