@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   ZapIcon,
   ShieldLockIcon,
@@ -23,6 +23,47 @@ import './LandingPage.css'
 
 export function LandingPage({ onGetStarted, theme, setTheme }) {
   const [activeFeature, setActiveFeature] = useState(0)
+  const [demoStatusIndex, setDemoStatusIndex] = useState(0)
+
+  // Cycle through different statuses for the demo card
+  const demoStatuses = [
+    {
+      status: 'in_progress',
+      conclusion: null,
+      workflow: 'Deploy to Staging',
+      branch: 'develop',
+      commitMessage: 'deploy: prepare version 2...'
+    },
+    {
+      status: 'completed',
+      conclusion: 'success',
+      workflow: 'Deploy to Staging',
+      branch: 'develop',
+      commitMessage: 'deploy: prepare version 2...'
+    },
+    {
+      status: 'completed',
+      conclusion: 'failure',
+      workflow: 'Test Suite',
+      branch: 'develop',
+      commitMessage: 'test: add comprehensive te...'
+    },
+    {
+      status: 'in_progress',
+      conclusion: null,
+      workflow: 'Build & Test',
+      branch: 'main',
+      commitMessage: 'feat: implement new featu...'
+    }
+  ]
+
+  // Cycle through statuses every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDemoStatusIndex((prev) => (prev + 1) % demoStatuses.length)
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [])
 
   // Demo data for preview cards
   const demoRepos = [
@@ -43,11 +84,7 @@ export function LandingPage({ onGetStarted, theme, setTheme }) {
     {
       name: 'demo-in-progress',
       status: {
-        status: 'in_progress',
-        conclusion: null,
-        workflow: 'Deploy to Staging',
-        branch: 'develop',
-        commitMessage: 'deploy: prepare version 2...',
+        ...demoStatuses[demoStatusIndex],
         description: 'Currently running workflow',
         topics: ['deployment', 'staging'],
         url: '#',

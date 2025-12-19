@@ -137,7 +137,7 @@ export function useAuth() {
   const handleDemoMode = () => {
     localStorage.setItem('demo_mode', 'true')
     setAuthMethod('demo')
-    setShowAuthSetup(true)
+    setShowAuthSetup(false) // Hide auth setup to show dashboard
   }
 
   /**
