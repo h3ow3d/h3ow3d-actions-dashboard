@@ -112,7 +112,7 @@ export function useAuth() {
     }
     setGithubToken('')
     setAuthMethod('none')
-    setShowAuthSetup(false)
+    setShowAuthSetup(false) // This triggers the landing page via useEffect in App.jsx
   }
   
   const handleDemoMode = () => {
