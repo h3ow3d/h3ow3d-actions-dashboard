@@ -1,0 +1,131 @@
+/* Shared styles across landing page and dashboard */
+
+/* Color system - extend Primer with gradients */
+:root {
+  --gradient-start: var(--color-accent-emphasis);
+  --gradient-end: var(--color-done-emphasis);
+}
+
+/* Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-accent-emphasis), var(--color-done-emphasis));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Section spacing */
+.section-spacing {
+  padding: 100px 0;
+}
+
+.section-spacing-sm {
+  padding: 60px 0;
+}
+
+/* Preview window styles (for landing page cards) */
+.dashboard-preview {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bgColor-default);
+  border: 1px solid var(--borderColor-default);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s ease;
+}
+
+.dashboard-preview:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--bgColor-muted);
+  border-bottom: 1px solid var(--borderColor-default);
+}
+
+.preview-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.preview-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--borderColor-default);
+  transition: background 0.3s ease;
+}
+
+.dashboard-preview:hover .preview-dots span:nth-child(1) {
+  background: #ff5f56;
+}
+
+.dashboard-preview:hover .preview-dots span:nth-child(2) {
+  background: #ffbd2e;
+}
+
+.dashboard-preview:hover .preview-dots span:nth-child(3) {
+  background: #27c93f;
+}
+
+.preview-title {
+  font-size: 13px;
+  color: var(--fgColor-muted);
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.preview-content {
+  padding: 24px;
+  background: var(--bgColor-default);
+}
+
+.preview-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Make cards non-interactive in preview */
+.preview-cards-grid .repo-card {
+  pointer-events: none;
+}
+
+.preview-cards-grid .repo-card a {
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .preview-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-spacing {
+    padding: 60px 0;
+  }
+
+  .section-spacing-sm {
+    padding: 40px 0;
+  }
+}

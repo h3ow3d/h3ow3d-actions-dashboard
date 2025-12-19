@@ -51,7 +51,7 @@ export function PatForm({
         borderRadius: '6px 6px 0 0',
         padding: '16px 24px'
       }}>
-        <h2 style={{fontSize: '16px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center'}}>
+        <h2 className="f4 text-semibold mb-0" style={{display: 'flex', alignItems: 'center'}}>
           <KeyIcon size={20} style={{marginRight: '8px'}} />
           Personal Access Token
         </h2>

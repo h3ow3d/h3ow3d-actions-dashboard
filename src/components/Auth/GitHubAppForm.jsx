@@ -122,7 +122,7 @@ export function GitHubAppForm({
           icon={ArrowLeftIcon}
           aria-label="Back"
         />
-        <h2 style={{fontSize: '16px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center'}}>
+        <h2 className="f4 text-semibold mb-0" style={{display: 'flex', alignItems: 'center'}}>
           <GearIcon size={20} style={{marginRight: '8px'}} />
           GitHub App Configuration
         </h2>
@@ -150,7 +150,7 @@ export function GitHubAppForm({
         </p>
         
         <div style={{marginBottom: '12px'}}>
-          <label htmlFor="app-id" className="FormControl-label" style={{display: 'block', marginBottom: '6px', fontWeight: 600, fontSize: '14px'}}>
+          <label htmlFor="app-id" className="FormControl-label f5 text-semibold" style={{display: 'block', marginBottom: '6px'}}>
             App ID
           </label>
           <TextInput
@@ -169,7 +169,7 @@ export function GitHubAppForm({
         </div>
         
         <div style={{marginBottom: '12px'}}>
-          <label htmlFor="installation-id" className="FormControl-label" style={{display: 'block', marginBottom: '6px', fontWeight: 600, fontSize: '14px'}}>
+          <label htmlFor="installation-id" className="FormControl-label f5 text-semibold" style={{display: 'block', marginBottom: '6px'}}>
             Installation ID
           </label>
           <TextInput
@@ -188,7 +188,7 @@ export function GitHubAppForm({
         </div>
         
         <div style={{marginBottom: '12px'}}>
-          <label htmlFor="private-key" className="FormControl-label" style={{display: 'block', marginBottom: '6px', fontWeight: 600, fontSize: '14px'}}>
+          <label htmlFor="private-key" className="FormControl-label f5 text-semibold" style={{display: 'block', marginBottom: '6px'}}>
             Private Key (PEM)
           </label>
           <Textarea

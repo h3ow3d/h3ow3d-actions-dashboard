@@ -71,7 +71,7 @@ make infra-output
 - HTTPS included
 - GitHub Actions auto-deployment
 
-📖 **[Full Deployment Guide →](./DEPLOYMENT.md)**
+📖 **[Full Deployment Guide →](docs/DEPLOYMENT.md)**
 
 ### Option 2: Local Docker 🐳
 
@@ -248,7 +248,7 @@ CloudFront CDN (Global)
 
 ### Detailed Guide
 
-See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for:
+See **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** for:
 - Complete setup instructions
 - Infrastructure configuration
 - Custom domain setup

@@ -26,6 +26,16 @@ const isDemoModeEnabled = (authMethod) => {
   return authMethod === 'demo'
 }
 
+/**
+ * Custom hook to fetch and manage GitHub Actions workflow statuses
+ * @param {Object} repositories - Repository configuration object
+ * @param {Function} getActiveToken - Function to retrieve active auth token
+ * @param {string} authMethod - Current authentication method ('pat', 'github-app', 'demo', 'none')
+ * @param {boolean} showAuthSetup - Whether auth setup is visible
+ * @param {boolean} autoRefresh - Whether to auto-refresh statuses
+ * @param {number} refreshInterval - Interval in seconds for auto-refresh
+ * @returns {Object} Status data and control functions
+ */
 export function useGitHubStatus(repositories, getActiveToken, authMethod, showAuthSetup, autoRefresh, refreshInterval) {
   const [repoStatuses, setRepoStatuses] = useState({})
   const [loading, setLoading] = useState(true)

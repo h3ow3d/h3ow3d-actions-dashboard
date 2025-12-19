@@ -4,17 +4,22 @@ import { Dashboard } from './components/Dashboard/Dashboard'
 import { AuthSetup } from './components/Auth/AuthSetup'
 import { Settings } from './components/Settings/Settings'
 import { HotkeyHelper } from './components/UI/HotkeyHelper'
+import { LandingPage } from './components/LandingPage/LandingPage'
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary'
 import { useGitHubStatus } from './hooks/useGitHubStatus'
 import { useTheme } from './hooks/useTheme'
 import { useAuth } from './hooks/useAuth'
 import { REPOSITORIES } from './constants'
+import { logger } from './utils/logger'
+import { DEFAULT_REFRESH_INTERVAL } from './constants/timing'
 
 function App() {
+  const [showLanding, setShowLanding] = useState(true)
   const [sortBy, setSortBy] = useState('last-run-desc')
   const [theme, setTheme] = useTheme()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [autoRefresh, setAutoRefresh] = useState(true)
-  const [refreshInterval, setRefreshInterval] = useState(10)
+  const [refreshInterval, setRefreshInterval] = useState(DEFAULT_REFRESH_INTERVAL)
   const [showGuide, setShowGuide] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showHotkeyHelper, setShowHotkeyHelper] = useState(false)
@@ -36,16 +41,31 @@ function App() {
   })
 
   const auth = useAuth()
+
+  // Check if user is already authenticated on mount - wait for auth to initialize
+  useEffect(() => {
+    // Only hide landing if we have a definite auth method (not 'none')
+    // This prevents flickering when auth is still initializing
+    if (auth.authMethod !== 'none' && !auth.showAuthSetup) {
+      setShowLanding(false)
+    }
+  }, [auth.authMethod, auth.showAuthSetup])
+
+  // Watch for logout - show landing page when user logs out
+  useEffect(() => {
+    if (auth.authMethod === 'none' && !auth.showAuthSetup) {
+      setShowLanding(true)
+    }
+  }, [auth.authMethod, auth.showAuthSetup])
   
   // Convert selectedRepos to REPOSITORIES format for hook - memoized to prevent re-renders
-  const reposForHook = useMemo(() => ({
-    common: selectedRepos.filter(r => r.category === 'common'),
-    modules: selectedRepos.filter(r => r.category === 'modules'),
-    infra: selectedRepos.filter(r => r.category === 'infra'),
-    services: selectedRepos.filter(r => r.category === 'services'),
-    utils: selectedRepos.filter(r => r.category === 'utils'),
-    custom: selectedRepos.filter(r => r.category === 'custom')
-  }), [selectedRepos])
+  const reposForHook = useMemo(() => 
+    ['common', 'modules', 'infra', 'services', 'utils', 'custom']
+      .reduce((acc, category) => ({
+        ...acc,
+        [category]: selectedRepos.filter(r => r.category === category)
+      }), {})
+  , [selectedRepos])
   
   const { repoStatuses, loading, lastUpdate, fetchAllStatuses, isDemoMode, toggleDemoMode, canToggleDemoMode } = useGitHubStatus(
     reposForHook,
@@ -61,12 +81,21 @@ function App() {
     localStorage.setItem('selectedRepos', JSON.stringify(repos))
   }
 
+  const handleGetStarted = () => {
+    setShowLanding(false)
+    // If no auth is configured, show auth setup
+    if (auth.authMethod === 'none') {
+      auth.setShowAuthSetup(true)
+    }
+    // If already authenticated (PAT, GitHub App, or demo), go straight to dashboard
+  }
+
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().then(() => {
         setIsFullscreen(true)
       }).catch(err => {
-        console.error('Error attempting to enable fullscreen:', err)
+        logger.error('Error attempting to enable fullscreen:', err)
       })
     } else {
       document.exitFullscreen().then(() => {
@@ -123,6 +152,15 @@ function App() {
     return () => document.removeEventListener('keypress', handleKeyPress)
   }, [theme, loading, fetchAllStatuses, setTheme])
 
+  // Show landing page first
+  if (showLanding) {
+    return <LandingPage 
+      onGetStarted={handleGetStarted} 
+      theme={theme} 
+      setTheme={setTheme} 
+    />
+  }
+
   if (auth.showAuthSetup) {
     return (
       <AuthSetup
@@ -152,47 +190,49 @@ function App() {
   }
 
   return (
-    <>
-      <Dashboard
-        repoStatuses={repoStatuses}
-        loading={loading}
-        lastUpdate={lastUpdate}
-        fetchAllStatuses={fetchAllStatuses}
-        isFullscreen={isFullscreen}
-        toggleFullscreen={toggleFullscreen}
-        authMethod={auth.authMethod}
-        appInfo={auth.appInfo}
-        handleLogout={auth.handleLogout}
-        clearToken={auth.clearToken}
-        theme={theme}
-        setTheme={setTheme}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        autoRefresh={autoRefresh}
-        setAutoRefresh={setAutoRefresh}
-        refreshInterval={refreshInterval}
-        setRefreshInterval={setRefreshInterval}
-        onOpenSettings={() => setShowSettings(true)}
-        filterByLabels={filterByLabels}
-        setFilterByLabels={setFilterByLabels}
-        isDemoMode={isDemoMode}
-        toggleDemoMode={toggleDemoMode}
-        canToggleDemoMode={canToggleDemoMode}
-        onToggleHotkeyHelper={() => setShowHotkeyHelper(prev => !prev)}
-      />
-      {showSettings && (
-        <Settings
-          onClose={() => setShowSettings(false)}
-          getActiveToken={auth.getActiveToken}
-          selectedRepos={selectedRepos}
-          onSaveRepos={handleSaveRepos}
+    <ErrorBoundary>
+      <div className="dashboard-mode">
+        <Dashboard
+          repoStatuses={repoStatuses}
+          loading={loading}
+          lastUpdate={lastUpdate}
+          fetchAllStatuses={fetchAllStatuses}
+          isFullscreen={isFullscreen}
+          toggleFullscreen={toggleFullscreen}
+          authMethod={auth.authMethod}
+          appInfo={auth.appInfo}
+          handleLogout={auth.handleLogout}
+          clearToken={auth.clearToken}
+          theme={theme}
+          setTheme={setTheme}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          autoRefresh={autoRefresh}
+          setAutoRefresh={setAutoRefresh}
+          refreshInterval={refreshInterval}
+          setRefreshInterval={setRefreshInterval}
+          onOpenSettings={() => setShowSettings(true)}
+          filterByLabels={filterByLabels}
+          setFilterByLabels={setFilterByLabels}
+          isDemoMode={isDemoMode}
+          toggleDemoMode={toggleDemoMode}
+          canToggleDemoMode={canToggleDemoMode}
+          onToggleHotkeyHelper={() => setShowHotkeyHelper(prev => !prev)}
         />
-      )}
-      <HotkeyHelper 
-        isOpen={showHotkeyHelper} 
-        onClose={() => setShowHotkeyHelper(false)} 
-      />
-    </>
+        {showSettings && (
+          <Settings
+            onClose={() => setShowSettings(false)}
+            getActiveToken={auth.getActiveToken}
+            selectedRepos={selectedRepos}
+            onSaveRepos={handleSaveRepos}
+          />
+        )}
+        <HotkeyHelper 
+          isOpen={showHotkeyHelper} 
+          onClose={() => setShowHotkeyHelper(false)} 
+        />
+      </div>
+    </ErrorBoundary>
   )
 }
 

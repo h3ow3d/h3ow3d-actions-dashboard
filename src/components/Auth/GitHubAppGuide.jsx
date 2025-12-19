@@ -22,7 +22,7 @@ function GitHubAppGuide({ onClose }) {
           maxHeight: '90vh',
           boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
           border: '1px solid var(--borderColor-default)',
-          borderRadius: '6px',
+          borderRadius: '12px',
           marginTop: '48px',
           background: 'var(--bgColor-default)'
         }}
@@ -31,16 +31,16 @@ function GitHubAppGuide({ onClose }) {
         <div style={{
           background: 'var(--bgColor-muted)',
           borderBottom: '1px solid var(--borderColor-default)',
-          borderRadius: '6px 6px 0 0',
+          borderRadius: '12px 12px 0 0',
           padding: '16px 24px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
-          <h1 style={{fontSize: '20px', fontWeight: 600, margin: 0}}>GitHub App Setup Guide</h1>
+          <h1 className="f3 text-bold mb-0">GitHub App Setup Guide</h1>
           <IconButton 
             onClick={onClose} 
-            variant="danger"
+            className="color-fg-muted"
             aria-label="Close"
             icon={XIcon}
           />
@@ -74,8 +74,6 @@ function GitHubAppGuide({ onClose }) {
                   justifyContent: 'center',
                   background: 'var(--bgColor-accent-emphasis)',
                   color: 'var(--fgColor-onEmphasis)',
-                  fontSize: '14px',
-                  fontWeight: 600
                 }}>1</span>
                 <span>Create GitHub App</span>
               </summary>
@@ -93,11 +91,10 @@ function GitHubAppGuide({ onClose }) {
                       color: 'var(--button-primary-fgColor)',
                       border: '1px solid transparent',
                       borderRadius: '6px',
-                      fontSize: '14px',
-                      fontWeight: 500,
                       textDecoration: 'none',
                       gap: '6px'
                     }}
+                    className="f5 text-medium"
                   >
                     <LinkExternalIcon size={14} />
                     Open GitHub App creation form
@@ -114,7 +111,7 @@ function GitHubAppGuide({ onClose }) {
                     borderBottom: '1px solid var(--borderColor-default)',
                     padding: '12px 16px'
                   }}>
-                    <h3 style={{fontSize: '14px', fontWeight: 600, margin: 0}}>Required Settings</h3>
+                    <h3 className="f5 text-bold mb-0">Required Settings</h3>
                   </div>
                   <div style={{padding: '16px'}}>
                     <div className="mb-3">
@@ -168,7 +165,7 @@ function GitHubAppGuide({ onClose }) {
                   <CheckCircleIcon size={16} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
                   <div>
                     <strong style={{display: 'block', marginBottom: '4px'}}>After creating the app:</strong>
-                    <p style={{margin: 0, fontSize: '14px'}}>Note down your <strong>App ID</strong> - it's displayed at the top of your app's settings page</p>
+                    <p className="f5 mb-0">Note down your <strong>App ID</strong> - it's displayed at the top of your app's settings page</p>
                   </div>
                 </div>
               </div>
@@ -181,11 +178,9 @@ function GitHubAppGuide({ onClose }) {
               borderRadius: '6px',
               marginBottom: '8px'
             }}>
-              <summary style={{
+              <summary className="f5 text-semibold" style={{
                 padding: '12px 16px',
                 cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
@@ -193,7 +188,7 @@ function GitHubAppGuide({ onClose }) {
                 borderRadius: '6px',
                 userSelect: 'none'
               }}>
-                <span style={{
+                <span className="f5 text-semibold" style={{
                   width: '28px',
                   height: '28px',
                   borderRadius: '50%',
@@ -202,8 +197,6 @@ function GitHubAppGuide({ onClose }) {
                   justifyContent: 'center',
                   background: 'var(--bgColor-accent-emphasis)',
                   color: 'var(--fgColor-onEmphasis)',
-                  fontSize: '14px',
-                  fontWeight: 600
                 }}>2</span>
                 <span>Generate Private Key</span>
               </summary>
@@ -238,7 +231,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   marginTop: '16px'
                 }}>
                   <strong style={{display: 'block', marginBottom: '4px'}}>⚠️ Security Note:</strong>
-                  <p style={{margin: 0, fontSize: '14px'}}>Keep this private key secure! It's like a password for your GitHub App. Never commit it to version control or share it publicly.</p>
+                  <p className="f5 mb-0">Keep this private key secure! It's like a password for your GitHub App. Never commit it to version control or share it publicly.</p>
                 </div>
                 
                 <div style={{
@@ -249,7 +242,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   marginTop: '16px'
                 }}>
                   <strong style={{display: 'block', marginBottom: '4px'}}>Why convert?</strong>
-                  <p style={{margin: 0, fontSize: '14px'}}>GitHub generates keys in PKCS#1 format (<code className="f6">BEGIN RSA PRIVATE KEY</code>), but the authentication library requires PKCS#8 format (<code className="f6">BEGIN PRIVATE KEY</code>) for better security and compatibility.</p>
+                  <p className="f5 mb-0">GitHub generates keys in PKCS#1 format (<code className="f6">BEGIN RSA PRIVATE KEY</code>), but the authentication library requires PKCS#8 format (<code className="f6">BEGIN PRIVATE KEY</code>) for better security and compatibility.</p>
                 </div>
               </div>
             </details>
@@ -261,11 +254,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
               borderRadius: '6px',
               marginBottom: '8px'
             }}>
-              <summary style={{
+              <summary className="f5 text-semibold" style={{
                 padding: '12px 16px',
                 cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
@@ -273,7 +264,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                 borderRadius: '6px',
                 userSelect: 'none'
               }}>
-                <span style={{
+                <span className="f5 text-semibold" style={{
                   width: '28px',
                   height: '28px',
                   borderRadius: '50%',
@@ -282,8 +273,6 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   justifyContent: 'center',
                   background: 'var(--bgColor-accent-emphasis)',
                   color: 'var(--fgColor-onEmphasis)',
-                  fontSize: '14px',
-                  fontWeight: 600
                 }}>3</span>
                 <span>Install the App</span>
               </summary>
@@ -318,11 +307,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
               borderRadius: '6px',
               marginBottom: '8px'
             }}>
-              <summary style={{
+              <summary className="f5 text-semibold" style={{
                 padding: '12px 16px',
                 cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
@@ -330,7 +317,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                 borderRadius: '6px',
                 userSelect: 'none'
               }}>
-                <span style={{
+                <span className="f5 text-semibold" style={{
                   width: '28px',
                   height: '28px',
                   borderRadius: '50%',
@@ -339,13 +326,11 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   justifyContent: 'center',
                   background: 'var(--bgColor-accent-emphasis)',
                   color: 'var(--fgColor-onEmphasis)',
-                  fontSize: '14px',
-                  fontWeight: 600
                 }}>4</span>
                 <span>Configure Dashboard</span>
               </summary>
               <div style={{padding: '16px', borderTop: '1px solid var(--borderColor-default)'}}>
-                <p style={{marginBottom: '16px', fontSize: '14px'}}>Now you have all three pieces of information needed:</p>
+                <p className="f5 mb-3">Now you have all three pieces of information needed:</p>
                 
                 <div style={{marginBottom: '16px'}}>
                   <div style={{
@@ -360,7 +345,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     <CheckCircleIcon size={20} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
                     <div>
                       <strong style={{display: 'block', marginBottom: '4px'}}>App ID</strong>
-                      <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>From your GitHub App settings page (usually 6 digits)</p>
+                      <p className="f5 color-fg-muted mb-0">From your GitHub App settings page (usually 6 digits)</p>
                     </div>
                   </div>
                   
@@ -376,7 +361,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     <CheckCircleIcon size={20} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
                     <div>
                       <strong style={{display: 'block', marginBottom: '4px'}}>Installation ID</strong>
-                      <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>From the installation URL (usually 8 digits)</p>
+                      <p className="f5 color-fg-muted mb-0">From the installation URL (usually 8 digits)</p>
                     </div>
                   </div>
                   
@@ -391,12 +376,12 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     <CheckCircleIcon size={20} style={{color: 'var(--fgColor-success)', flexShrink: 0, marginTop: '2px'}} />
                     <div>
                       <strong style={{display: 'block', marginBottom: '4px'}}>Private Key</strong>
-                      <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Contents of the converted PKCS#8 .pem file</p>
+                      <p className="f5 color-fg-muted mb-0">Contents of the converted PKCS#8 .pem file</p>
                     </div>
                   </div>
                 </div>
                 
-                <p style={{marginBottom: '12px', fontSize: '14px'}}>Click the button below to return to the configuration form and enter these credentials.</p>
+                <p className="f5 mb-2">Click the button below to return to the configuration form and enter these credentials.</p>
                 
                 <Button 
                   onClick={onClose} 
@@ -415,11 +400,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
               borderRadius: '6px',
               marginBottom: '8px'
             }}>
-              <summary style={{
+              <summary className="f5 text-semibold" style={{
                 padding: '12px 16px',
                 cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
@@ -435,11 +418,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   borderRadius: '6px',
                   marginBottom: '12px'
                 }}>
-                  <summary style={{
+                  <summary className="f5 text-semibold" style={{
                     padding: '12px 16px',
                     cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: '14px',
                     background: 'var(--bgColor-default)',
                     borderRadius: '6px'
                   }}>
@@ -449,7 +430,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     padding: '12px 16px',
                     borderTop: '1px solid var(--borderColor-default)'
                   }}>
-                    <ul style={{marginLeft: '20px', fontSize: '14px'}}>
+                    <ul className="f5 ml-4">
                       <li style={{marginBottom: '8px'}}>Double-check your App ID and Installation ID are correct</li>
                       <li style={{marginBottom: '8px'}}>Ensure you copied the entire private key including BEGIN/END lines</li>
                       <li style={{marginBottom: '8px'}}>Verify your GitHub App has the correct permissions (Actions: Read-only)</li>
@@ -464,11 +445,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   borderRadius: '6px',
                   marginBottom: '12px'
                 }}>
-                  <summary style={{
+                  <summary className="f5 text-semibold" style={{
                     padding: '12px 16px',
                     cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: '14px',
                     background: 'var(--bgColor-default)',
                     borderRadius: '6px'
                   }}>
@@ -478,7 +457,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     padding: '12px 16px',
                     borderTop: '1px solid var(--borderColor-default)'
                   }}>
-                    <ul style={{marginLeft: '20px', fontSize: '14px'}}>
+                    <ul className="f5 ml-4">
                       <li style={{marginBottom: '8px'}}>Go to <a href="https://github.com/settings/installations" target="_blank" rel="noopener noreferrer" style={{color: 'var(--fgColor-accent)', textDecoration: 'none'}}>github.com/settings/installations</a></li>
                       <li style={{marginBottom: '8px'}}>Click "Configure" next to your app</li>
                       <li>Look at the URL - the number at the end is your Installation ID</li>
@@ -490,11 +469,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                   border: '1px solid var(--borderColor-default)',
                   borderRadius: '6px'
                 }}>
-                  <summary style={{
+                  <summary className="f5 text-semibold" style={{
                     padding: '12px 16px',
                     cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: '14px',
                     background: 'var(--bgColor-default)',
                     borderRadius: '6px'
                   }}>
@@ -504,7 +481,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     padding: '12px 16px',
                     borderTop: '1px solid var(--borderColor-default)'
                   }}>
-                    <ul style={{marginLeft: '20px', fontSize: '14px'}}>
+                    <ul className="f5 ml-4">
                       <li style={{marginBottom: '8px'}}>Installation tokens expire after 1 hour (but auto-refresh)</li>
                       <li style={{marginBottom: '8px'}}>Try refreshing the page to generate a new token</li>
                       <li style={{marginBottom: '8px'}}>Verify the GitHub App is still installed on your account</li>
@@ -521,11 +498,9 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
               border: '1px solid var(--borderColor-default)',
               borderRadius: '6px'
             }}>
-              <summary style={{
+              <summary className="f5 text-semibold" style={{
                 padding: '12px 16px',
                 cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
@@ -542,8 +517,8 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     borderRadius: '6px',
                     padding: '16px'
                   }}>
-                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>🔒 More Secure</h3>
-                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Fine-grained permissions scoped to specific repositories and actions</p>
+                    <h3 className="f4 text-semibold mb-2">🔒 More Secure</h3>
+                    <p className="f5 color-fg-muted mb-0">Fine-grained permissions scoped to specific repositories and actions</p>
                   </div>
                   
                   <div style={{
@@ -551,8 +526,8 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     borderRadius: '6px',
                     padding: '16px'
                   }}>
-                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>🔄 Auto-Refresh</h3>
-                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Installation tokens automatically refresh - no manual token rotation</p>
+                    <h3 className="f4 text-semibold mb-2">🔄 Auto-Refresh</h3>
+                    <p className="f5 color-fg-muted mb-0">Installation tokens automatically refresh - no manual token rotation</p>
                   </div>
                   
                   <div style={{
@@ -560,8 +535,8 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     borderRadius: '6px',
                     padding: '16px'
                   }}>
-                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>👥 Team Friendly</h3>
-                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Not tied to a specific user account - better for organizations</p>
+                    <h3 className="f4 text-semibold mb-2">👥 Team Friendly</h3>
+                    <p className="f5 color-fg-muted mb-0">Not tied to a specific user account - better for organizations</p>
                   </div>
                   
                   <div style={{
@@ -569,8 +544,8 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in your-app.pem -out you
                     borderRadius: '6px',
                     padding: '16px'
                   }}>
-                    <h3 style={{fontSize: '16px', marginBottom: '8px', fontWeight: 600}}>📊 Better Audit Trail</h3>
-                    <p style={{fontSize: '14px', color: 'var(--fgColor-muted)', margin: 0}}>Enhanced logging and activity tracking in GitHub</p>
+                    <h3 className="f4 text-semibold mb-2">📊 Better Audit Trail</h3>
+                    <p className="f5 color-fg-muted mb-0">Enhanced logging and activity tracking in GitHub</p>
                   </div>
                 </div>
               </div>
