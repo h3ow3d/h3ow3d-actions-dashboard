@@ -63,7 +63,7 @@ export function DashboardHeader({
   }
 
   return (
-    <header className="pb-3 mb-3 border-bottom">
+    <header className="pt-3 pb-3 mb-3 border-bottom">
       <div className="d-flex flex-justify-between flex-items-center mb-2">
         <div>
           <h1 className="f3 text-normal mb-1 d-flex flex-items-center" style={{ gap: '8px' }}>
