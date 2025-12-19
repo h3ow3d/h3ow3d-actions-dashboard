@@ -64,14 +64,16 @@ describe('Modal Component', () => {
   it('applies custom maxWidth when provided', () => {
     const { container } = render(<Modal {...defaultProps} maxWidth="800px" />)
     
-    const modalElement = container.querySelector('[style*="maxWidth"]')
+    // Find the modal container (the second div with position: fixed)
+    const modalElement = container.querySelector('div[style*="position: fixed"][style*="transform"]')
     expect(modalElement).toHaveStyle({ maxWidth: '800px' })
   })
 
   it('uses default maxWidth when not provided', () => {
     const { container } = render(<Modal {...defaultProps} />)
     
-    const modalElement = container.querySelector('[style*="maxWidth"]')
+    // Find the modal container (the second div with position: fixed)
+    const modalElement = container.querySelector('div[style*="position: fixed"][style*="transform"]')
     expect(modalElement).toHaveStyle({ maxWidth: '500px' })
   })
 })
