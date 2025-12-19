@@ -35,6 +35,7 @@ export function HotkeyHelper({ isOpen, onClose }) {
             }}
           >
             <kbd
+              className="f5 text-semibold"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -46,8 +47,6 @@ export function HotkeyHelper({ isOpen, onClose }) {
                 border: '1px solid var(--borderColor-default)',
                 borderRadius: '6px',
                 fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
-                fontSize: '14px',
-                fontWeight: 600,
                 color: 'var(--fgColor-default)',
                 boxShadow: '0 1px 0 var(--borderColor-default)',
               }}

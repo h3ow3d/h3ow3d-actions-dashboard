@@ -55,13 +55,13 @@ export function AuthSetup({
                   <ShieldLockIcon size={16} style={{marginRight: '8px', verticalAlign: 'text-bottom'}} />
                   <strong>Your data is protected:</strong>
                 </div>
-                <ul style={{ margin: 0, paddingLeft: '28px', fontSize: '14px' }}>
+                <ul className="f5 mb-0" style={{ paddingLeft: '28px' }}>
                   <li>Credentials stored locally in your browser only</li>
                   <li>Content Security Policy blocks unauthorized scripts</li>
                   <li>No data transmission to external servers</li>
                   <li>Same-origin policy prevents access from other sites</li>
                 </ul>
-                <div style={{ fontSize: '12px', marginTop: '4px' }}>
+                <div className="f6 mt-1">
                   <a 
                     href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/blob/main/docs/SECURITY.md" 
                     target="_blank" 
@@ -92,7 +92,7 @@ export function AuthSetup({
                 borderRadius: '6px 6px 0 0',
                 padding: '16px 24px'
               }}>
-                <h2 style={{fontSize: '16px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center'}}>
+                <h2 className="f4 text-semibold mb-0" style={{display: 'flex', alignItems: 'center'}}>
                   <GearIcon size={20} style={{marginRight: '8px'}} />
                   GitHub App (Recommended)
                 </h2>
@@ -132,7 +132,7 @@ export function AuthSetup({
             
             <div className="d-flex flex-items-center my-5">
               <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
-              <span className="px-4 f5 color-fg-muted" style={{fontWeight: 600}}>OR</span>
+              <span className="px-4 f5 text-semibold color-fg-muted">OR</span>
               <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
             </div>
             
@@ -152,7 +152,7 @@ export function AuthSetup({
             
             <div className="d-flex flex-items-center my-5">
               <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
-              <span className="px-4 f5 color-fg-muted" style={{fontWeight: 600}}>OR</span>
+              <span className="px-4 f5 text-semibold color-fg-muted">OR</span>
               <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
             </div>
             
@@ -167,7 +167,7 @@ export function AuthSetup({
                 borderRadius: '6px 6px 0 0',
                 padding: '16px 24px'
               }}>
-                <h2 style={{fontSize: '16px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center'}}>
+                <h2 className="f4 text-semibold mb-0" style={{display: 'flex', alignItems: 'center'}}>
                   <BeakerIcon size={20} style={{marginRight: '8px'}} />
                   Demo Mode
                 </h2>
