@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { 
+import {
   ZapIcon,
   ShieldLockIcon,
   WorkflowIcon,
@@ -14,14 +14,17 @@ import {
   RocketIcon,
   GearIcon,
   PeopleIcon,
-  OrganizationIcon
+  OrganizationIcon,
+  DownloadIcon
 } from '@primer/octicons-react'
 import { Button, IconButton, Label, Text, Heading } from '@primer/react'
 import { RepoCard } from '../Dashboard/RepoCard'
+import { buildInstallUrl, isSharedAppConfigured } from '../../config/githubApp'
 import '../../styles/shared.css'
 import './LandingPage.css'
 
 export function LandingPage({ onGetStarted, onViewRoadmap, theme, setTheme }) {
+  const sharedAppConfigured = isSharedAppConfigured()
   const [activeFeature, setActiveFeature] = useState(0)
   const [demoStatusIndex, setDemoStatusIndex] = useState(0)
 
@@ -228,25 +231,50 @@ export function LandingPage({ onGetStarted, onViewRoadmap, theme, setTheme }) {
               Built with React, secured with your choice of authentication, and designed for teams who ship fast.
             </p>
             <div className="hero-actions">
-              <Button 
-                variant="primary" 
-                size="large"
-                leadingVisual={RocketIcon}
-                trailingVisual={ChevronRightIcon}
-                onClick={onGetStarted}
-              >
-                Launch Dashboard
-              </Button>
-              <Button 
-                as="a"
-                href="https://github.com/h3ow3d/h3ow3d-actions-dashboard"
-                target="_blank"
-                rel="noopener noreferrer"
-                size="large"
-                leadingVisual={MarkGithubIcon}
-              >
-                View on GitHub
-              </Button>
+              {sharedAppConfigured ? (
+                <>
+                  <Button
+                    as="a"
+                    href={buildInstallUrl()}
+                    variant="primary"
+                    size="large"
+                    leadingVisual={DownloadIcon}
+                    trailingVisual={ChevronRightIcon}
+                  >
+                    Install GitHub App
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="large"
+                    leadingVisual={RocketIcon}
+                    onClick={onGetStarted}
+                  >
+                    Or configure manually
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="primary"
+                    size="large"
+                    leadingVisual={RocketIcon}
+                    trailingVisual={ChevronRightIcon}
+                    onClick={onGetStarted}
+                  >
+                    Launch Dashboard
+                  </Button>
+                  <Button
+                    as="a"
+                    href="https://github.com/h3ow3d/h3ow3d-actions-dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="large"
+                    leadingVisual={MarkGithubIcon}
+                  >
+                    View on GitHub
+                  </Button>
+                </>
+              )}
             </div>
             
             {/* Stats Bar */}
