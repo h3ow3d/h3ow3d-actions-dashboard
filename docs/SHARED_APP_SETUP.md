@@ -39,23 +39,31 @@ https://actions.dashboard.stackgobrr.com/auth/github/callback
 - Metadata: **Read-only** (automatic)
 - Pull requests: **Read-only**
 
-## Step 3: Install React Router (Pending)
+## Step 3: Install React Router [DONE]
 
-The OAuth callback flow requires React Router. This needs to be:
-1. Install `react-router-dom`
-2. Setup routes in App.jsx
-3. Add route for `/auth/github/callback` → `SharedAppAuth` component
+The OAuth callback flow requires React Router:
+- [x] Installed `react-router-dom`
+- [x] Setup routes in App.jsx with BrowserRouter
+- [x] Added route for `/auth/github/callback` → `SharedAppAuth` component
 
-## Step 4: Update useAuth Hook (Pending)
+## Step 4: Update useAuth Hook [DONE]
 
-Add support for `shared-app` auth method:
-- Check for `shared_app_installation_id` in localStorage
-- Return installation ID when auth method is `shared-app`
-- SSE will automatically connect using this installation ID
+Added support for `shared-app` auth method:
+- [x] Checks for `shared_app_installation_id` in localStorage
+- [x] Sets auth method to 'shared-app' when installation found
+- [x] SSE automatically connects using installation ID
+- [x] Logout clears shared app credentials
 
-## Step 5: Test the Flow
+## Step 5: Configure GitHub App Callback URL
 
-1. Deploy with `GITHUB_APP_SLUG` variable set
+Add the callback URL to your GitHub App settings:
+1. Navigate to: https://github.com/organizations/stackgobrr/settings/apps/actions-dashboard-by-stackgobrr
+2. Add callback URL: `https://actions.dashboard.stackgobrr.com/auth/github/callback`
+3. Save changes
+
+## Step 6: Test the Flow
+
+1. [x] Deploy with `APP_SLUG` variable set (actions-dashboard-by-stackgobrr)
 2. Visit landing page - should see "Install GitHub App" button
 3. Click button → redirected to GitHub
 4. Install app to your account/repos
@@ -66,23 +74,33 @@ Add support for `shared-app` auth method:
 
 ## Current Status
 
-✅ Backend fully operational (webhook → Lambda → SSE)
-✅ Frontend SSE integration complete
-✅ SharedAppAuth component created
-✅ Landing page conditional button added
-🔨 React Router setup (pending)
-🔨 useAuth shared-app support (pending)
-🔨 GitHub App slug configuration (pending)
+[x] Backend fully operational (webhook → Lambda → SSE)
+[x] Frontend SSE integration complete
+[x] SharedAppAuth component created
+[x] Landing page conditional button added
+[x] React Router setup complete
+[x] useAuth shared-app support complete
+[x] GitHub App slug configured (APP_SLUG variable set)
+[ ] GitHub App callback URL configuration (pending)
+[ ] End-to-end testing (pending)
 
 ## Files Modified
-- `.github/workflows/deploy.yml` - Added `VITE_GITHUB_APP_SLUG` env var
+- `.github/workflows/deploy.yml` - Added `VITE_APP_SLUG` env var (renamed from VITE_GITHUB_APP_SLUG)
 - `src/config/githubApp.js` - Shared app configuration
 - `src/components/Auth/SharedAppAuth.jsx` - OAuth callback handler
 - `src/components/LandingPage/LandingPage.jsx` - Conditional install button
+- `src/main.jsx` - Added BrowserRouter wrapper
+- `src/App.jsx` - Added Routes and OAuth callback route
+- `src/hooks/useAuth.js` - Added shared-app auth method support
+- `src/hooks/useGitHubStatus.js` - Enabled SSE for shared-app auth
+- `package.json` - Added react-router-dom dependency
 
 ## Next Steps
-Once you provide the app slug, I'll:
-1. Set up React Router
-2. Update useAuth hook
-3. Wire everything together
-4. Test the complete flow
+1. Configure GitHub App callback URL in GitHub settings
+2. Wait for deployment to complete (will inject APP_SLUG at build time)
+3. Test the complete flow:
+   - Visit landing page
+   - Click "Install GitHub App" button
+   - Complete GitHub installation
+   - Verify redirect to dashboard
+   - Trigger a workflow to test SSE updates
