@@ -14,7 +14,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = "h3ow3d-actions-dashboard"
+      Project     = var.project_name
       Environment = var.environment
       ManagedBy   = "Terraform"
     }
@@ -28,7 +28,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = "h3ow3d-actions-dashboard"
+      Project     = var.project_name
       Environment = var.environment
       ManagedBy   = "Terraform"
     }
