@@ -75,6 +75,7 @@ jobs:
         env:
           TF_VAR_domain_name: ${{ vars.DOMAIN_NAME }}
           TF_VAR_hosted_zone_id: ${{ vars.HOSTED_ZONE_ID }}
+          TF_VAR_github_webhook_secret: ${{ secrets.GITHUB_WEBHOOK_SECRET }}
 
       - name: Get S3 bucket name
         id: get-bucket
@@ -104,12 +105,17 @@ jobs:
             --distribution-id ${{ steps.get-bucket.outputs.distribution_id }} \
             --paths "/*"
 
-      - name: Get website URL
+      - name: Get deployment URLs
         run: |
           cd infra
           WEBSITE_URL=$(terraform output -raw website_url)
-          
+          WEBHOOK_URL=$(terraform output -raw webhook_receiver_url)
+          SSE_URL=$(terraform output -raw sse_handler_url)
+
           echo "🚀 Dashboard deployed successfully!"
           echo "📍 Website URL: $WEBSITE_URL"
+          echo "🔗 Webhook URL: $WEBHOOK_URL"
+          echo "📡 SSE URL: $SSE_URL"
           echo ""
           echo "::notice title=Deployment Complete::Dashboard is live at $WEBSITE_URL"
+          echo "::notice title=Webhook URL::Add this to your GitHub App: $WEBHOOK_URL"
