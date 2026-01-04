@@ -7,7 +7,7 @@
 import crypto from 'crypto';
 import { eventBroadcaster } from './eventBroadcaster.js';
 
-const WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
+const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
 /**
  * Verify GitHub webhook signature
@@ -18,7 +18,7 @@ const WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
 function verifySignature(payload, signature) {
   // If no webhook secret is configured, skip validation (allow initial setup)
   if (!WEBHOOK_SECRET) {
-    console.warn('[Webhook] No GITHUB_WEBHOOK_SECRET configured - skipping signature validation');
+    console.warn('[Webhook] No WEBHOOK_SECRET configured - skipping signature validation');
     return true;
   }
 

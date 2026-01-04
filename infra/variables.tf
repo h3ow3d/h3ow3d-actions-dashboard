@@ -41,7 +41,7 @@ variable "github_token_parameter_name" {
 }
 
 # GitHub App Configuration (for webhook support)
-variable "github_webhook_secret" {
+variable "webhook_secret" {
   description = "GitHub webhook secret for validating webhook signatures"
   type        = string
   sensitive   = true

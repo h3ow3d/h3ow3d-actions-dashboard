@@ -12,7 +12,7 @@ hosted_zone_id = "your-route53-hosted-zone-id"
 
 # GitHub App Configuration
 # Get these values from your GitHub App settings
-github_webhook_secret = "your-webhook-secret-here"
+webhook_secret = "your-webhook-secret-here"
 
 # Optional: GitHub App credentials (for future features)
 # github_app_id         = "123456"

@@ -59,8 +59,8 @@ resource "aws_lambda_function" "webhook_receiver" {
 
   environment {
     variables = {
-      GITHUB_WEBHOOK_SECRET = var.github_webhook_secret
-      NODE_ENV              = var.environment
+      WEBHOOK_SECRET = var.webhook_secret
+      NODE_ENV       = var.environment
     }
   }
 
