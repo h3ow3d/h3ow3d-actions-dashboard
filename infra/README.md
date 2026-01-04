@@ -1,33 +1,37 @@
-# Actions Dashboard - AWS S3/CloudFront Infrastructure
+# Actions Dashboard - AWS Infrastructure
 
-This directory contains Terraform configuration to deploy the Actions Dashboard as a static website on S3 with CloudFront CDN.
+This directory contains Terraform configuration to deploy the Actions Dashboard with:
+1. Static frontend (S3 + CloudFront)
+2. Real-time webhook infrastructure (Lambda Function URLs + SSE)
 
 ## Architecture
 
 ```
-┌─────────────┐
-│   GitHub    │
-│   Actions   │
-└──────┬──────┘
-       │ Build & Deploy
-       ▼
-┌─────────────┐
-│     S3      │  Static Files (HTML, JS, CSS)
-│   Bucket    │  (Private - accessed via CloudFront)
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐      ┌──────────────┐
-│ CloudFront  │◄─────┤   Optional   │
-│ Distribution│      │Custom Domain │
-└──────┬──────┘      └──────────────┘
-       │
-       ▼
-    Internet
+┌──────────────┐
+│    GitHub    │
+│  Workflows   │
+└───┬──────────┘
+    │ Webhook Events
+    ▼
+┌──────────────┐     ┌──────────────┐
+│   Lambda     │────▶│   Lambda     │
+│   Webhook    │     │ SSE Handler  │
+│   Receiver   │     │ (Streaming)  │
+└──────────────┘     └───────┬──────┘
+                             │ Server-Sent Events
+                             ▼
+┌──────────────┐     ┌──────────────┐
+│      S3      │────▶│  CloudFront  │
+│    Bucket    │     │ Distribution │
+└──────────────┘     └───────┬──────┘
+                             │
+                             ▼
+                       React Dashboard
 ```
 
 ## Features
 
+### Frontend Infrastructure
 - **S3 Static Hosting**: Secure, scalable static file storage
 - **CloudFront CDN**: Global edge caching for fast delivery
 - **Origin Access Control (OAC)**: Secure S3 access without public bucket
@@ -36,6 +40,13 @@ This directory contains Terraform configuration to deploy the Actions Dashboard 
 - **Cache Optimization**: Long-lived caching for assets, no-cache for HTML
 - **Auto-deploy**: GitHub Actions deploys on every push to main
 - **Custom Domain Support**: Optional Route 53 + ACM integration
+
+### Real-Time Webhook Infrastructure
+- **Lambda Webhook Receiver**: Receives and validates GitHub webhook events
+- **Lambda SSE Handler**: Streams workflow updates to browser clients via Server-Sent Events
+- **Multi-Tenant Security**: Installation ID filtering ensures users only see their repos
+- **Lambda Function URLs**: Simple HTTPS endpoints without API Gateway complexity
+- **Response Streaming**: Sub-second latency for workflow status updates
 
 ## Prerequisites
 
@@ -88,8 +99,28 @@ This creates:
 - CloudFront distribution
 - Origin Access Control (OAC)
 - Bucket policy for CloudFront access
+- Lambda functions (webhook receiver, SSE handler)
+- Lambda Function URLs
+- IAM roles and CloudWatch log groups
 
-### 5. Build and Deploy Website
+### 5. Configure GitHub App Webhook
+
+After deployment, you'll need to add the webhook URL to your GitHub App:
+
+```bash
+# Get the webhook URL from Terraform outputs
+terraform output webhook_receiver_url
+```
+
+Then:
+1. Go to your GitHub App settings: `https://github.com/settings/apps/your-app-name`
+2. Scroll to "Webhook" section
+3. Paste the `webhook_receiver_url` into the "Webhook URL" field
+4. Save changes
+
+The GitHub App will now send workflow events to your Lambda function, which will broadcast them to connected dashboard clients via SSE.
+
+### 6. Build and Deploy Website
 
 ```bash
 cd ..
@@ -106,7 +137,7 @@ make invalidate
 make deploy
 ```
 
-### 6. Get Your Dashboard URL
+### 7. Get Your Dashboard URL
 
 ```bash
 terraform -chdir=infra output website_url
