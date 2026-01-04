@@ -5,6 +5,7 @@ import { AuthSetup } from './components/Auth/AuthSetup'
 import { Settings } from './components/Settings/Settings'
 import { HotkeyHelper } from './components/UI/HotkeyHelper'
 import { LandingPage } from './components/LandingPage/LandingPage'
+import { Roadmap } from './components/Roadmap/Roadmap'
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary'
 import { useGitHubStatus } from './hooks/useGitHubStatus'
 import { useTheme } from './hooks/useTheme'
@@ -15,6 +16,7 @@ import { DEFAULT_REFRESH_INTERVAL } from './constants/timing'
 
 function App() {
   const [showLanding, setShowLanding] = useState(true)
+  const [showRoadmap, setShowRoadmap] = useState(false)
   const [sortBy, setSortBy] = useState('last-run-desc')
   const [theme, setTheme] = useTheme()
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -152,12 +154,28 @@ function App() {
     return () => document.removeEventListener('keypress', handleKeyPress)
   }, [theme, loading, fetchAllStatuses, setTheme])
 
+  // Show roadmap page
+  if (showRoadmap) {
+    return <Roadmap
+      onBack={() => {
+        setShowRoadmap(false)
+        setShowLanding(true)
+      }}
+      theme={theme}
+      setTheme={setTheme}
+    />
+  }
+
   // Show landing page first
   if (showLanding) {
-    return <LandingPage 
-      onGetStarted={handleGetStarted} 
-      theme={theme} 
-      setTheme={setTheme} 
+    return <LandingPage
+      onGetStarted={handleGetStarted}
+      onViewRoadmap={() => {
+        setShowLanding(false)
+        setShowRoadmap(true)
+      }}
+      theme={theme}
+      setTheme={setTheme}
     />
   }
 

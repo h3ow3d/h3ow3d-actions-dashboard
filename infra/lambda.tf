@@ -1,17 +1,3 @@
-# Lambda Layer for shared dependencies
-resource "aws_lambda_layer_version" "shared" {
-  filename   = "lambda_layer.zip"
-  layer_name = "${var.project_name}-shared-layer"
-
-  compatible_runtimes = ["nodejs20.x"]
-
-  description = "Shared dependencies for webhook receiver and SSE handler"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 # Package Lambda functions
 data "archive_file" "webhook_receiver" {
   type        = "zip"
@@ -23,12 +9,6 @@ data "archive_file" "sse_handler" {
   type        = "zip"
   source_dir  = "${path.module}/lambda/sse-handler"
   output_path = "${path.module}/.terraform/lambda-sse-handler.zip"
-}
-
-data "archive_file" "shared_layer" {
-  type        = "zip"
-  source_dir  = "${path.module}/lambda/shared"
-  output_path = "${path.module}/.terraform/lambda-shared-layer.zip"
 }
 
 # IAM Role for Lambda functions
@@ -77,8 +57,6 @@ resource "aws_lambda_function" "webhook_receiver" {
   timeout          = 30
   memory_size      = 256
 
-  layers = [aws_lambda_layer_version.shared.arn]
-
   environment {
     variables = {
       GITHUB_WEBHOOK_SECRET = var.github_webhook_secret
@@ -101,8 +79,6 @@ resource "aws_lambda_function" "sse_handler" {
   runtime          = "nodejs20.x"
   timeout          = 900 # 15 minutes (max for Lambda Function URLs)
   memory_size      = 256
-
-  layers = [aws_lambda_layer_version.shared.arn]
 
   environment {
     variables = {

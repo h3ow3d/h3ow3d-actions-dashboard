@@ -21,7 +21,7 @@ import { RepoCard } from '../Dashboard/RepoCard'
 import '../../styles/shared.css'
 import './LandingPage.css'
 
-export function LandingPage({ onGetStarted, theme, setTheme }) {
+export function LandingPage({ onGetStarted, onViewRoadmap, theme, setTheme }) {
   const [activeFeature, setActiveFeature] = useState(0)
   const [demoStatusIndex, setDemoStatusIndex] = useState(0)
 
@@ -190,6 +190,12 @@ export function LandingPage({ onGetStarted, theme, setTheme }) {
               <Text sx={{ fontSize: 3, fontWeight: 'semibold' }}>Actions Dashboard</Text>
             </div>
             <div className="d-flex flex-items-center" style={{ gap: '16px' }}>
+              <Button
+                variant="invisible"
+                onClick={onViewRoadmap}
+              >
+                Roadmap
+              </Button>
               <IconButton
                 icon={theme === 'dark' ? SunIcon : MoonIcon}
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -439,6 +445,9 @@ export function LandingPage({ onGetStarted, theme, setTheme }) {
               <a href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/blob/main/docs/DEPLOYMENT.md" target="_blank" rel="noopener noreferrer" className="color-fg-muted f5">
                 Documentation
               </a>
+              <button onClick={onViewRoadmap} className="color-fg-muted f5" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                Roadmap
+              </button>
               <a href="https://github.com/h3ow3d/h3ow3d-actions-dashboard/issues" target="_blank" rel="noopener noreferrer" className="color-fg-muted f5">
                 Issues
               </a>

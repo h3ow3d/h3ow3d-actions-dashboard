@@ -5,7 +5,7 @@
  */
 
 import crypto from 'crypto';
-import { eventBroadcaster } from '../shared/eventBroadcaster.js';
+import { eventBroadcaster } from './eventBroadcaster.js';
 
 const WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
 

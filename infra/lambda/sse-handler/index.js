@@ -4,7 +4,7 @@
  * Filters events by installation_id for multi-tenant security
  */
 
-import { eventBroadcaster } from '../shared/eventBroadcaster.js';
+import { eventBroadcaster } from './eventBroadcaster.js';
 
 /**
  * Lambda handler with response streaming
