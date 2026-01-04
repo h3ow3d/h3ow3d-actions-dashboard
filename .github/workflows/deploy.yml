@@ -68,6 +68,9 @@ jobs:
           working-directory: 'infra'
           terraform-wrapper: 'false'
           auto-approve: 'true'
+        env:
+          TF_VAR_domain_name: ${{ vars.DOMAIN_NAME }}
+          TF_VAR_hosted_zone_id: ${{ vars.HOSTED_ZONE_ID }}
 
       - name: Get S3 bucket name
         id: get-bucket
