@@ -5,7 +5,7 @@
 
 // GitHub App slug (will be provided after you create the GitHub App)
 // Format: https://github.com/apps/{APP_SLUG}
-export const GITHUB_APP_SLUG = process.env.REACT_APP_GITHUB_APP_SLUG || 'your-app-slug-here'
+export const GITHUB_APP_SLUG = import.meta.env.VITE_GITHUB_APP_SLUG || ''
 
 // GitHub App install URL
 export const GITHUB_APP_INSTALL_URL = `https://github.com/apps/${GITHUB_APP_SLUG}/installations/new`
@@ -17,7 +17,7 @@ export const GITHUB_APP_CALLBACK_URL = window.location.origin + '/auth/github/ca
  * Check if shared GitHub App is configured
  */
 export function isSharedAppConfigured() {
-  return GITHUB_APP_SLUG && GITHUB_APP_SLUG !== 'your-app-slug-here'
+  return GITHUB_APP_SLUG && GITHUB_APP_SLUG.length > 0
 }
 
 /**
