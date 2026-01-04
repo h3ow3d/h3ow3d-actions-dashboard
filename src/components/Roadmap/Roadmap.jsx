@@ -4,19 +4,15 @@ import {
   ChevronLeftIcon,
   MoonIcon,
   SunIcon,
-  FilterIcon,
-  ListUnorderedIcon,
-  GitBranchIcon
+  FilterIcon
 } from '@primer/octicons-react'
-import { Button, IconButton, Text, Heading, Label, SegmentedControl } from '@primer/react'
+import { Button, IconButton, Text, Heading } from '@primer/react'
 import { RoadmapCard } from './RoadmapCard'
-import { SimpleGitGraph } from './SimpleGitGraph'
 import { roadmapFeatures, futureConsiderations, statusConfig, priorityConfig } from './roadmapData'
 import './Roadmap.css'
 import '../../styles/shared.css'
 
 export function Roadmap({ onBack, theme, setTheme }) {
-  const [viewMode, setViewMode] = useState('tree') // 'grid' or 'tree'
   const [filterStatus, setFilterStatus] = useState('all')
   const [filterPriority, setFilterPriority] = useState('all')
   const [expandedCard, setExpandedCard] = useState(null)
@@ -112,41 +108,15 @@ export function Roadmap({ onBack, theme, setTheme }) {
         </div>
       </section>
 
-      {/* View Toggle & Filters Section */}
+      {/* Filters Section */}
       <section className="filters-section">
         <div className="container">
-          <div className="view-toggle-container">
-            <div className="d-flex flex-items-center" style={{ gap: '12px' }}>
-              <Text sx={{ fontWeight: 'semibold', fontSize: 1 }}>View:</Text>
-              <div className="view-toggle-buttons">
-                <Button
-                  variant={viewMode === 'tree' ? 'primary' : 'default'}
-                  size="small"
-                  leadingVisual={GitBranchIcon}
-                  onClick={() => setViewMode('tree')}
-                >
-                  Git Tree
-                </Button>
-                <Button
-                  variant={viewMode === 'grid' ? 'primary' : 'default'}
-                  size="small"
-                  leadingVisual={ListUnorderedIcon}
-                  onClick={() => setViewMode('grid')}
-                >
-                  Grid
-                </Button>
+          <div className="filters-container">
+            <div className="filter-group">
+              <div className="d-flex flex-items-center" style={{ gap: '8px', marginBottom: '8px' }}>
+                <FilterIcon size={16} />
+                <Text sx={{ fontWeight: 'semibold', fontSize: 1 }}>Status</Text>
               </div>
-            </div>
-          </div>
-
-          {/* Only show filters in grid mode */}
-          {viewMode === 'grid' && (
-            <div className="filters-container">
-              <div className="filter-group">
-                <div className="d-flex flex-items-center" style={{ gap: '8px', marginBottom: '8px' }}>
-                  <FilterIcon size={16} />
-                  <Text sx={{ fontWeight: 'semibold', fontSize: 1 }}>Status</Text>
-                </div>
               <div className="filter-buttons">
                 <Button
                   variant={filterStatus === 'all' ? 'primary' : 'default'}
@@ -216,36 +186,29 @@ export function Roadmap({ onBack, theme, setTheme }) {
               </div>
             </div>
           </div>
-          )}
         </div>
       </section>
 
-      {/* Features Section - Conditional Rendering */}
+      {/* Features Section */}
       <section className="roadmap-features-section">
         <div className="container">
-          {viewMode === 'tree' ? (
-            <SimpleGitGraph />
+          {filteredFeatures.length === 0 ? (
+            <div className="no-results">
+              <Text sx={{ color: 'fg.muted', fontSize: 2 }}>
+                No features match the selected filters
+              </Text>
+            </div>
           ) : (
-            <>
-              {filteredFeatures.length === 0 ? (
-                <div className="no-results">
-                  <Text sx={{ color: 'fg.muted', fontSize: 2 }}>
-                    No features match the selected filters
-                  </Text>
-                </div>
-              ) : (
-                <div className="roadmap-grid">
-                  {filteredFeatures.map((feature) => (
-                    <RoadmapCard
-                      key={feature.id}
-                      feature={feature}
-                      isExpanded={expandedCard === feature.id}
-                      onToggleExpand={() => setExpandedCard(expandedCard === feature.id ? null : feature.id)}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
+            <div className="roadmap-grid">
+              {filteredFeatures.map((feature) => (
+                <RoadmapCard
+                  key={feature.id}
+                  feature={feature}
+                  isExpanded={expandedCard === feature.id}
+                  onToggleExpand={() => setExpandedCard(expandedCard === feature.id ? null : feature.id)}
+                />
+              ))}
+            </div>
           )}
         </div>
       </section>
