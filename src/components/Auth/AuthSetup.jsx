@@ -1,8 +1,9 @@
-import { MarkGithubIcon, GearIcon, LinkExternalIcon, BeakerIcon, SignOutIcon, LightBulbIcon, ShieldLockIcon } from '@primer/octicons-react'
+import { MarkGithubIcon, GearIcon, LinkExternalIcon, BeakerIcon, SignOutIcon, LightBulbIcon, ShieldLockIcon, DownloadIcon } from '@primer/octicons-react'
 import { Button, Flash } from '@primer/react'
 import GitHubAppGuide from './GitHubAppGuide'
 import { GitHubAppForm } from './GitHubAppForm'
 import { PatForm } from './PatForm'
+import { buildInstallUrl, isSharedAppConfigured } from '../../config/githubApp'
 
 export function AuthSetup({
   showGuide,
@@ -81,6 +82,52 @@ export function AuthSetup({
         
         {!showGitHubAppForm && (
           <>
+            {isSharedAppConfigured() && (
+              <>
+                <div style={{
+                  boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
+                  border: '2px solid var(--borderColor-accent-emphasis)',
+                  borderRadius: '6px'
+                }}>
+                  <div style={{
+                    background: 'var(--bgColor-accent-muted)',
+                    borderBottom: '1px solid var(--borderColor-default)',
+                    borderRadius: '6px 6px 0 0',
+                    padding: '16px 24px'
+                  }}>
+                    <h2 className="f4 text-semibold mb-0" style={{display: 'flex', alignItems: 'center'}}>
+                      <DownloadIcon size={20} style={{marginRight: '8px'}} />
+                      Install GitHub App (Recommended)
+                    </h2>
+                  </div>
+                  <div style={{padding: '32px 40px 16px 40px'}}>
+                    <p className="color-fg-muted f5 mb-3">
+                      One-click installation with real-time updates via webhooks. The easiest way to get started.
+                    </p>
+                    <Button
+                      as="a"
+                      href={buildInstallUrl()}
+                      variant="primary"
+                      block
+                      size="large"
+                      leadingVisual={DownloadIcon}
+                    >
+                      Install GitHub App
+                    </Button>
+                    <p className="f6 color-fg-muted mt-3 mb-0 text-center">
+                      Instant setup with real-time webhook notifications
+                    </p>
+                  </div>
+                </div>
+
+                <div className="d-flex flex-items-center my-5">
+                  <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
+                  <span className="px-4 f5 text-semibold color-fg-muted">OR</span>
+                  <div className="flex-1" style={{height: '1px', background: 'var(--borderColor-default)'}}></div>
+                </div>
+              </>
+            )}
+
             <div style={{
               boxShadow: '0 1px 3px var(--color-shadow-small), 0 8px 24px var(--color-shadow-medium)',
               border: '1px solid var(--borderColor-default)',
@@ -94,28 +141,28 @@ export function AuthSetup({
               }}>
                 <h2 className="f4 text-semibold mb-0" style={{display: 'flex', alignItems: 'center'}}>
                   <GearIcon size={20} style={{marginRight: '8px'}} />
-                  GitHub App (Recommended)
+                  Self-Hosted GitHub App
                 </h2>
               </div>
               <div style={{padding: '32px 40px 16px 40px'}}>
-                <p className="color-fg-muted f5 mb-3">Enhanced security with automatic token refresh, ideal for professional use.</p>
-                <Button 
-                  onClick={() => setShowGitHubAppForm(true)} 
-                  variant="primary"
+                <p className="color-fg-muted f5 mb-3">Configure your own GitHub App for advanced control and customization.</p>
+                <Button
+                  onClick={() => setShowGitHubAppForm(true)}
+                  variant="default"
                   block
                   size="large"
-                  leadingVisual={MarkGithubIcon}
+                  leadingVisual={GearIcon}
                 >
                   Configure GitHub App
                 </Button>
                 <p className="f6 color-fg-muted mt-3 mb-0 text-center">
-                  <button 
-                    onClick={(e) => { e.preventDefault(); setShowGuide(true); }} 
-                    style={{ 
-                      background: 'none', 
-                      border: 'none', 
-                      padding: 0, 
-                      cursor: 'pointer', 
+                  <button
+                    onClick={(e) => { e.preventDefault(); setShowGuide(true); }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      cursor: 'pointer',
                       font: 'inherit',
                       color: 'var(--fgColor-accent)',
                       textDecoration: 'none'
