@@ -39,3 +39,24 @@ variable "github_token_parameter_name" {
   type        = string
   default     = ""
 }
+
+# GitHub App Configuration (for webhook support)
+variable "github_webhook_secret" {
+  description = "GitHub webhook secret for validating webhook signatures"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "github_app_id" {
+  description = "GitHub App ID (optional - for future GitHub App integration)"
+  type        = string
+  default     = ""
+}
+
+variable "github_app_private_key" {
+  description = "GitHub App private key (optional - for future GitHub App integration)"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
