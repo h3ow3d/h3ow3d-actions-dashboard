@@ -22,7 +22,7 @@ jobs:
         uses: ./.github/actions/react-component-test
       
       - name: Build application
-        uses: h3ow3d/h3ow3d-github-actions/actions/node-build-test@main
+        uses: stackgobrr/common-github-actions/actions/node-build-test@main
         with:
           node-version: '20'
           working-directory: '.'

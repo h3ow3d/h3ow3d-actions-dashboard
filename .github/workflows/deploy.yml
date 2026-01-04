@@ -26,7 +26,7 @@ jobs:
         uses: ./.github/actions/react-component-test
       
       - name: Build application
-        uses: h3ow3d/h3ow3d-github-actions/actions/node-build-test@main
+        uses: stackgobrr/common-github-actions/actions/node-build-test@main
         with:
           node-version: ${{ env.NODE_VERSION }}
           working-directory: '.'
@@ -54,7 +54,7 @@ jobs:
           path: dist/
 
       - name: Configure AWS credentials
-        uses: h3ow3d/h3ow3d-github-actions/actions/aws-configure@main
+        uses: stackgobrr/common-github-actions/actions/aws-configure@main
         with:
           aws-region: ${{ env.AWS_REGION }}
           auth-method: 'static'
@@ -62,7 +62,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy infrastructure
-        uses: h3ow3d/h3ow3d-github-actions/actions/terraform-deploy@main
+        uses: stackgobrr/common-github-actions/actions/terraform-deploy@main
         with:
           terraform-version: '1.14.1'
           working-directory: 'infra'
