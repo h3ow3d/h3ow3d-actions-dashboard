@@ -15,47 +15,37 @@ env:
   NODE_VERSION: '20'
 
 jobs:
-  build:
-    name: Build and Test
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
     permissions:
       contents: read
       checks: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Run Component Tests
         uses: ./.github/actions/react-component-test
-      
-      - name: Build application
-        uses: stackgobrr/common-github-actions/actions/node-build-test@main
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          working-directory: '.'
-          build-command: 'npm run build'
-          upload-artifacts: 'true'
-          artifact-name: 'dist'
-          artifact-path: 'dist/'
 
-  deploy:
-    name: Deploy to AWS
-    needs: build
+  deploy-infrastructure:
+    name: Deploy Infrastructure
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    outputs:
+      sse_url: ${{ steps.get-outputs.outputs.sse_url }}
+      webhook_url: ${{ steps.get-outputs.outputs.webhook_url }}
+      website_url: ${{ steps.get-outputs.outputs.website_url }}
+      s3_bucket: ${{ steps.get-outputs.outputs.s3_bucket }}
+      distribution_id: ${{ steps.get-outputs.outputs.distribution_id }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
 
       - name: Configure AWS credentials
         uses: stackgobrr/common-github-actions/actions/aws-configure@main
@@ -77,42 +67,92 @@ jobs:
           TF_VAR_hosted_zone_id: ${{ vars.HOSTED_ZONE_ID }}
           TF_VAR_webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
 
-      - name: Get S3 bucket name
-        id: get-bucket
+      - name: Get Terraform outputs
+        id: get-outputs
         run: |
           cd infra
-          BUCKET_NAME=$(terraform output -raw s3_bucket_name)
-          echo "bucket_name=$BUCKET_NAME" >> $GITHUB_OUTPUT
-          
+          SSE_URL=$(terraform output -raw sse_handler_url)
+          WEBHOOK_URL=$(terraform output -raw webhook_receiver_url)
+          WEBSITE_URL=$(terraform output -raw website_url)
+          S3_BUCKET=$(terraform output -raw s3_bucket_name)
           DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)
+
+          echo "sse_url=$SSE_URL" >> $GITHUB_OUTPUT
+          echo "webhook_url=$WEBHOOK_URL" >> $GITHUB_OUTPUT
+          echo "website_url=$WEBSITE_URL" >> $GITHUB_OUTPUT
+          echo "s3_bucket=$S3_BUCKET" >> $GITHUB_OUTPUT
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build Application
+    needs: deploy-infrastructure
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build application with SSE endpoint
+        uses: stackgobrr/common-github-actions/actions/node-build-test@main
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          working-directory: '.'
+          build-command: 'npm run build'
+          upload-artifacts: 'true'
+          artifact-name: 'dist'
+          artifact-path: 'dist/'
+        env:
+          VITE_SSE_ENDPOINT: ${{ needs.deploy-infrastructure.outputs.sse_url }}
+
+  deploy-frontend:
+    name: Deploy Frontend
+    needs: [deploy-infrastructure, build]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Configure AWS credentials
+        uses: stackgobrr/common-github-actions/actions/aws-configure@main
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          auth-method: 'static'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Sync files to S3
         run: |
-          aws s3 sync dist/ s3://${{ steps.get-bucket.outputs.bucket_name }}/ \
+          aws s3 sync dist/ s3://${{ needs.deploy-infrastructure.outputs.s3_bucket }}/ \
             --delete \
             --cache-control "public, max-age=31536000, immutable" \
             --exclude "index.html" \
             --exclude "*.map"
-          
+
           # Upload index.html separately with no-cache
-          aws s3 cp dist/index.html s3://${{ steps.get-bucket.outputs.bucket_name }}/index.html \
+          aws s3 cp dist/index.html s3://${{ needs.deploy-infrastructure.outputs.s3_bucket }}/index.html \
             --cache-control "public, max-age=0, must-revalidate"
 
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ steps.get-bucket.outputs.distribution_id }} \
+            --distribution-id ${{ needs.deploy-infrastructure.outputs.distribution_id }} \
             --paths "/*"
 
-      - name: Get deployment URLs
+      - name: Display deployment URLs
         run: |
-          cd infra
-          WEBSITE_URL=$(terraform output -raw website_url)
-          WEBHOOK_URL=$(terraform output -raw webhook_receiver_url)
-          SSE_URL=$(terraform output -raw sse_handler_url)
-
           echo "🚀 Dashboard deployed successfully!"
-          echo "📍 Website URL: $WEBSITE_URL"
-          echo "🔗 Webhook URL: $WEBHOOK_URL"
-          echo "📡 SSE URL: $SSE_URL"
+          echo "📍 Website URL: ${{ needs.deploy-infrastructure.outputs.website_url }}"
+          echo "🔗 Webhook URL: ${{ needs.deploy-infrastructure.outputs.webhook_url }}"
+          echo "📡 SSE URL: ${{ needs.deploy-infrastructure.outputs.sse_url }}"
