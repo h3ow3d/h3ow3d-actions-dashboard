@@ -279,6 +279,7 @@ function App() {
                   <Settings
                     onClose={() => setShowSettings(false)}
                     getActiveToken={auth.getActiveToken}
+                    authMethod={auth.authMethod}
                     selectedRepos={selectedRepos}
                     onSaveRepos={handleSaveRepos}
                   />

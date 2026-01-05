@@ -141,8 +141,21 @@ export function DashboardHeader({
             <div className="d-flex flex-items-center gap-2 border rounded-2 px-3 py-1">
               <GearIcon size={16} className="color-fg-muted" />
               <span className="f6">{appInfo.appName} ({appInfo.account})</span>
-              <IconButton 
-                onClick={handleLogout} 
+              <IconButton
+                onClick={handleLogout}
+                aria-label="Sign out"
+                title="Sign out"
+                icon={SignOutIcon}
+                size="medium"
+                className="color-fg-muted"
+              />
+            </div>
+          ) : authMethod === 'shared-app' ? (
+            <div className="d-flex flex-items-center gap-2 border rounded-2 px-3 py-1">
+              <MarkGithubIcon size={16} className="color-fg-muted" />
+              <span className="f6">Actions Dashboard App</span>
+              <IconButton
+                onClick={handleLogout}
                 aria-label="Sign out"
                 title="Sign out"
                 icon={SignOutIcon}
@@ -151,18 +164,18 @@ export function DashboardHeader({
               />
             </div>
           ) : authMethod === 'pat' ? (
-            <IconButton 
+            <IconButton
               icon={SignOutIcon}
-              onClick={clearToken} 
+              onClick={clearToken}
               aria-label="Sign out"
               title="Sign out"
               size="medium"
               className="color-fg-muted"
             />
           ) : authMethod === 'demo' ? (
-            <IconButton 
+            <IconButton
               icon={SignOutIcon}
-              onClick={handleLogout} 
+              onClick={handleLogout}
               aria-label="Sign out of demo mode"
               title="Sign out of demo mode"
               size="medium"
